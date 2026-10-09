@@ -405,7 +405,7 @@ Trade-off between **Latency (L)** and **Consistency (C)**.
     {
       id: "crs-1",
       title: "Data Structures & Algorithms",
-      platform: "Learnova LMS Core",
+      platform: "SIKHSHA COPILOT",
       instructor: "Prof. Mehta",
       subjectId: "subj-2",
       progress: 75,
@@ -419,7 +419,7 @@ Trade-off between **Latency (L)** and **Consistency (C)**.
     {
       id: "crs-2",
       title: "Database Systems & Architecture",
-      platform: "Learnova LMS Core",
+      platform: "SIKHSHA COPILOT",
       instructor: "Prof. Iyer",
       subjectId: "subj-3",
       progress: 60,
@@ -433,7 +433,7 @@ Trade-off between **Latency (L)** and **Consistency (C)**.
     {
       id: "crs-3",
       title: "Operating Systems Principles",
-      platform: "Learnova LMS Core",
+      platform: "SIKHSHA COPILOT",
       instructor: "Prof. Verma",
       subjectId: "subj-3",
       progress: 40,
@@ -447,7 +447,7 @@ Trade-off between **Latency (L)** and **Consistency (C)**.
     {
       id: "crs-4",
       title: "Computer Networks & Protocols",
-      platform: "Learnova LMS Core",
+      platform: "SIKHSHA COPILOT",
       instructor: "Prof. Rao",
       subjectId: "subj-3",
       progress: 20,
@@ -461,7 +461,7 @@ Trade-off between **Latency (L)** and **Consistency (C)**.
     {
       id: "crs-5",
       title: "Machine Learning & AI Foundations",
-      platform: "Stanford Online / Learnova",
+      platform: "Stanford Online / SIKHSHA COPILOT",
       instructor: "Andrew Ng",
       subjectId: "subj-1",
       progress: 72,
@@ -475,7 +475,7 @@ Trade-off between **Latency (L)** and **Consistency (C)**.
     {
       id: "crs-6",
       title: "Web Technologies & Cloud Services",
-      platform: "Learnova LMS Core",
+      platform: "SIKHSHA COPILOT",
       instructor: "Prof. Gupta",
       subjectId: "subj-3",
       progress: 80,
@@ -489,7 +489,7 @@ Trade-off between **Latency (L)** and **Consistency (C)**.
     {
       id: "crs-7",
       title: "Software Engineering & Architecture",
-      platform: "Learnova LMS Core",
+      platform: "SIKHSHA COPILOT",
       instructor: "Prof. Sharma",
       subjectId: "subj-2",
       progress: 100,
@@ -503,7 +503,7 @@ Trade-off between **Latency (L)** and **Consistency (C)**.
     {
       id: "crs-8",
       title: "Discrete Mathematics & Graph Theory",
-      platform: "Learnova LMS Core",
+      platform: "SIKHSHA COPILOT",
       instructor: "Prof. Raman",
       subjectId: "subj-4",
       progress: 100,

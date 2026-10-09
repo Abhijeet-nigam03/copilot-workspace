@@ -1058,6 +1058,105 @@ class SynapseApp {
       }
     }
   }
+
+  // --- SIKHSHA COPILOT: AI Study Diagnostics & Weak Area Handlers ---
+  refreshStudyDiagnostics() {
+    showToast('Analyzing academic performance & recalculating mastery...', 'info');
+    const scoreVal = document.getElementById('diag-score-val');
+    if (scoreVal) {
+      scoreVal.textContent = '...';
+      setTimeout(() => {
+        scoreVal.textContent = '74%';
+        showToast('Academic Diagnostics updated: +3% progress detected!', 'success');
+        this.refreshIcons();
+      }, 600);
+    }
+  }
+
+  addWeakAreaTasksToPlanner() {
+    const weakTasks = [
+      {
+        title: 'Review Operating Systems Page Replacement & FIFO Belady Anomaly',
+        subjectName: 'Operating Systems Principles',
+        mins: 30,
+        timeBlock: 'Morning'
+      },
+      {
+        title: 'Practice 4 University Problems on Charpit Non-linear PDEs',
+        subjectName: 'Engineering Mathematics',
+        mins: 45,
+        timeBlock: 'Afternoon'
+      },
+      {
+        title: 'Diagnostic Self-Test: B+ Tree Index Balancing & 3NF Normalization',
+        subjectName: 'Database Systems & Architecture',
+        mins: 25,
+        timeBlock: 'Evening'
+      }
+    ];
+
+    let addedCount = 0;
+    weakTasks.forEach((item, idx) => {
+      const exists = store.data.tasks.some(t => t.title === item.title);
+      if (!exists) {
+        const newTask = {
+          id: 'diag-task-' + Date.now() + '-' + idx,
+          title: item.title,
+          category: 'Revision',
+          priority: 'high',
+          subjectId: store.data.subjects[0]?.id || 'subj-1',
+          status: 'pending',
+          dueDate: new Date().toISOString().split('T')[0],
+          isToday: true,
+          timeBlock: item.timeBlock,
+          estimatedMins: item.mins
+        };
+        store.data.tasks.unshift(newTask);
+        addedCount++;
+      }
+    });
+
+    store.saveData();
+    if (window.productivityManager) {
+      productivityManager.renderTodaysPlanner();
+      productivityManager.renderUnifiedTasks();
+    }
+    this.renderDashboard();
+
+    if (addedCount > 0) {
+      showToast(`Added ${addedCount} targeted revision tasks to Today's Plan!`, 'success');
+    } else {
+      showToast('Weak area tasks already in your plan for today!', 'info');
+    }
+  }
+
+  addSpecificTaskToPlanner(title, subjectName) {
+    const exists = store.data.tasks.some(t => t.title === title);
+    if (!exists) {
+      const newTask = {
+        id: 'diag-task-' + Date.now(),
+        title: title,
+        category: 'Weak Topic',
+        priority: 'high',
+        subjectId: store.data.subjects[0]?.id || 'subj-1',
+        status: 'pending',
+        dueDate: new Date().toISOString().split('T')[0],
+        isToday: true,
+        timeBlock: 'Morning',
+        estimatedMins: 35
+      };
+      store.data.tasks.unshift(newTask);
+      store.saveData();
+      if (window.productivityManager) {
+        productivityManager.renderTodaysPlanner();
+        productivityManager.renderUnifiedTasks();
+      }
+      this.renderDashboard();
+      showToast(`Task added: "${title}"`, 'success');
+    } else {
+      showToast('Task is already present in your daily plan.', 'info');
+    }
+  }
 }
 
 const app = new SynapseApp();

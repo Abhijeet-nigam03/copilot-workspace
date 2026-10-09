@@ -1,22 +1,28 @@
-# 🎓 Learnova LMS — Personal Learning & Productivity Workspace
+# 🎓 SIKHSHA COPILOT — Personal Learning & Productivity Workspace
 
 > *"Your Journey. Your Future."*  
 > *All-in-one learning platform to plan, learn, track, and achieve more every day.*
 
-**Learnova LMS** is a desktop- and mobile-grade learning platform and student workspace engineered to streamline lecture viewing, real-time note-taking, PDF document study, curriculum planning, task management, and career growth.
+**SIKHSHA COPILOT** is a desktop- and mobile-grade learning platform and student workspace engineered to streamline lecture viewing, real-time note-taking, PDF document study, curriculum planning, AI academic diagnostics, task management, and career growth.
 
 ---
 
 ## ⚡ Architecture & Modules
 
 ```
-Learnova LMS
+SIKHSHA COPILOT
 ├── 📊 Dashboard
 │   ├── KPI Overview (Courses Enrolled, Classes Today, Assignments Due, Attendance %)
 │   ├── Today's Schedule & 1-Click Live Class Launcher
 │   ├── Quick Resume Cards (Notes, YouTube, PDF)
 │   ├── Overall Performance Donut & Weekly Activity Momentum
-│   └── Study Goals & Milestones Progress
+│   ├── Study Goals & Milestones Progress
+│   └── 🧠 AI Academic Diagnostic & Weak Subject Roadmap (Scrollable Deep-Dive)
+│       ├── Academic Health Score & Retention Rate
+│       ├── Subject Proficiency Breakdown (Weak vs Moderate vs Strong)
+│       ├── Identified Knowledge Gaps & Root-Cause Analyses
+│       ├── Actionable Step-by-Step Recovery Roadmap
+│       └── 1-Click Planner Integration for Weak Area Fixes
 │
 ├── 📚 Study Hub
 │   ├── 📝 Subject Notes (Markdown live preview, syntax highlighting, LaTeX formulas)

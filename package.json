@@ -1,7 +1,7 @@
 {
-  "name": "synapse-os",
+  "name": "sikhsha-copilot",
   "version": "1.0.0",
-  "description": "Synapse OS — Professional Personal Learning & Productivity Workspace",
+  "description": "SIKHSHA COPILOT — Personal Learning & Productivity Workspace with AI Study Diagnostics",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

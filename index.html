@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Learnova LMS — Your Journey. Your Future. All-in-one learning platform to plan, learn, track and achieve more every day.">
-  <title>Learnova LMS — Your Journey. Your Future.</title>
+  <meta name="description" content="SIKHSHA COPILOT — Your Journey. Your Future. All-in-one learning platform to plan, learn, track and achieve more every day.">
+  <title>SIKHSHA COPILOT — Your Journey. Your Future.</title>
   
   <link rel="icon" type="image/jpeg" href="assets/avatar.jpg">
 
@@ -30,19 +30,19 @@
 <div id="app-container">
 
   <!-- ===================================================================
-       LEARNOVA LMS SIDEBAR NAVIGATION (Exact match to design screenshot)
+       SIKHSHA COPILOT SIDEBAR NAVIGATION
        =================================================================== -->
   <aside class="app-sidebar">
     <div>
-      <!-- Learnova Brand Header -->
+      <!-- SIKHSHA COPILOT Brand Header -->
       <div class="sidebar-header">
         <div class="brand-wrapper" onclick="app.switchMainTab('dashboard')">
           <div class="brand-icon-box">
             <i data-lucide="graduation-cap" style="width: 22px; height: 22px; color: #FFFFFF;"></i>
           </div>
           <div class="brand-title-wrap">
-            <span class="brand-title">Learnova</span>
-            <span class="brand-tag">LMS</span>
+            <span class="brand-title">SIKHSHA COPILOT</span>
+            <span class="brand-tag">AI LMS</span>
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@
         <!-- Search bar -->
         <div class="topbar-search-box">
           <i data-lucide="search" style="width: 15px; height: 15px; color: var(--text-muted); flex-shrink: 0;"></i>
-          <input type="text" class="topbar-search-input" id="learnova-global-search" placeholder="Search for courses, classes...">
+          <input type="text" class="topbar-search-input" id="learnova-global-search" placeholder="Search courses, classes, weak topics in SIKHSHA COPILOT...">
         </div>
 
         <!-- Notification Bell with badge 3 -->
@@ -482,7 +482,446 @@
             </div>
           </div>
 
-        </div>
+          <!-- ===============================================================
+               SIKHSHA COPILOT: DETAILED STUDY ANALYSIS & WEAK SUBJECTS ROADMAP
+               (Appears smoothly upon scrolling down the dashboard)
+               =============================================================== -->
+          <div class="learnova-diagnostic-section" id="dash-diagnostic-section">
+            
+            <!-- Section Header Banner -->
+            <div class="diagnostic-header-card">
+              <div class="diagnostic-header-content">
+                <div class="diagnostic-badge">
+                  <i data-lucide="brain-circuit" style="width: 15px; height: 15px;"></i>
+                  <span>AI Academic Diagnostic & Performance Analytics</span>
+                </div>
+                <h2 class="diagnostic-title">Detailed Study Analysis & Weak Subject Improvement Roadmap</h2>
+                <p class="diagnostic-desc">
+                  Continuous performance evaluation across your 8 enrolled courses, past quizzes, and weekly study hours. 
+                  Identified <strong>3 weak subjects</strong> with prioritized root-cause diagnoses, exam risk assessments, and actionable step-by-step revision guidance.
+                </p>
+              </div>
+              <div class="diagnostic-header-actions">
+                <button class="btn btn-secondary" id="btn-recalculate-diagnostics" onclick="app.refreshStudyDiagnostics()" title="Recalculate live diagnostics">
+                  <i data-lucide="refresh-cw" style="width: 13px; height: 13px;"></i>
+                  <span>Re-analyze</span>
+                </button>
+                <button class="btn btn-primary" id="btn-add-improvement-tasks" onclick="app.addWeakAreaTasksToPlanner()" title="Add recommended fix tasks to Today's Planner">
+                  <i data-lucide="calendar-plus" style="width: 14px; height: 14px;"></i>
+                  <span>Apply Plan to Schedule</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 4 Summary Diagnostic KPI Cards -->
+            <div class="diagnostic-kpi-grid">
+              
+              <div class="diagnostic-kpi-card">
+                <div class="diag-kpi-top">
+                  <span class="diag-kpi-label">Academic Health Score</span>
+                  <div class="diag-kpi-icon icon-amber">
+                    <i data-lucide="activity" style="width: 16px; height: 16px;"></i>
+                  </div>
+                </div>
+                <div class="diag-kpi-val-row">
+                  <span class="diag-kpi-val" id="diag-score-val">71%</span>
+                  <span class="badge badge-amber">Moderate Risk</span>
+                </div>
+                <div class="diag-progress-bar">
+                  <div class="diag-progress-fill fill-amber" style="width: 71%;"></div>
+                </div>
+                <span class="diag-kpi-foot">2 of 8 subjects require targeted revision</span>
+              </div>
+
+              <div class="diagnostic-kpi-card">
+                <div class="diag-kpi-top">
+                  <span class="diag-kpi-label">Critical Weak Points</span>
+                  <div class="diag-kpi-icon icon-rose">
+                    <i data-lucide="alert-triangle" style="width: 16px; height: 16px;"></i>
+                  </div>
+                </div>
+                <div class="diag-kpi-val-row">
+                  <span class="diag-kpi-val" style="color: #EF4444;">4</span>
+                  <span class="badge badge-rose">High Exam Impact</span>
+                </div>
+                <span class="diag-kpi-foot">Estimated mark loss risk: ~22 marks</span>
+              </div>
+
+              <div class="diagnostic-kpi-card">
+                <div class="diag-kpi-top">
+                  <span class="diag-kpi-label">Concept Retention Rate</span>
+                  <div class="diag-kpi-icon icon-blue">
+                    <i data-lucide="clock" style="width: 16px; height: 16px;"></i>
+                  </div>
+                </div>
+                <div class="diag-kpi-val-row">
+                  <span class="diag-kpi-val" style="color: #3B82F6;">64%</span>
+                  <span class="badge badge-primary">Decaying</span>
+                </div>
+                <div class="diag-progress-bar">
+                  <div class="diag-progress-fill fill-blue" style="width: 64%;"></div>
+                </div>
+                <span class="diag-kpi-foot">Spaced review needed in Math & OS</span>
+              </div>
+
+              <div class="diagnostic-kpi-card">
+                <div class="diag-kpi-top">
+                  <span class="diag-kpi-label">Potential Score Boost</span>
+                  <div class="diag-kpi-icon icon-emerald">
+                    <i data-lucide="trending-up" style="width: 16px; height: 16px;"></i>
+                  </div>
+                </div>
+                <div class="diag-kpi-val-row">
+                  <span class="diag-kpi-val" style="color: #10B981;">+18%</span>
+                  <span class="badge badge-emerald">Achievable</span>
+                </div>
+                <span class="diag-kpi-foot">With 4.5 hours of focused weak-area prep</span>
+              </div>
+
+            </div>
+
+            <!-- Subject-by-Subject Competency Breakdown & Weakness Deep Dive -->
+            <div class="diagnostic-main-grid">
+              
+              <!-- Left: Subject Competency Matrix (Weak vs Strong) -->
+              <div class="diagnostic-panel">
+                <div class="diag-panel-header">
+                  <div class="diag-panel-title">
+                    <i data-lucide="layers" style="width: 17px; height: 17px; color: var(--learnova-primary);"></i>
+                    <span>Subject Proficiency & Risk Spectrum</span>
+                  </div>
+                  <span class="badge badge-neutral">Auto-Evaluated</span>
+                </div>
+
+                <div class="subject-diagnostic-list">
+                  
+                  <!-- Subject 1: Operating Systems (Critical Weak) -->
+                  <div class="subject-diagnostic-card status-weak">
+                    <div class="sub-diag-header">
+                      <div class="sub-diag-info">
+                        <div class="sub-diag-tag-row">
+                          <span class="sub-badge badge-critical">🚨 Critical Weak Subject</span>
+                          <span class="sub-code">CS-301</span>
+                        </div>
+                        <h4 class="sub-diag-name">Operating Systems Principles</h4>
+                        <span class="sub-diag-instructor">Prof. Verma • 4 of 10 Modules completed</span>
+                      </div>
+                      <div class="sub-diag-score-box">
+                        <div class="sub-score-pct" style="color: #EF4444;">54%</div>
+                        <span class="sub-score-lbl">Mastery Level</span>
+                      </div>
+                    </div>
+
+                    <div class="sub-diag-bar">
+                      <div class="sub-diag-fill" style="width: 54%; background: #EF4444;"></div>
+                    </div>
+
+                    <!-- Identified Weak Points for Subject 1 -->
+                    <div class="weak-points-container">
+                      <span class="weak-points-title">⚠️ Identified Weak Points & Knowledge Gaps:</span>
+                      <ul class="weak-points-bullets">
+                        <li>
+                          <strong>Virtual Memory & Page Replacement:</strong> 
+                          High error rate in LRU vs Optimal replacement strings; misses Belady's FIFO anomaly boundary condition.
+                        </li>
+                        <li>
+                          <strong>Banker's Algorithm:</strong> 
+                          Slow in computing matrix subtraction (Need = Max - Allocation) during multi-resource requests.
+                        </li>
+                        <li>
+                          <strong>Synchronization Primitives:</strong> 
+                          Confusion between counting semaphores and Peterson's algorithmic flags.
+                        </li>
+                      </ul>
+                    </div>
+
+                    <!-- Actionable Improvement Suggestions for Subject 1 -->
+                    <div class="diag-suggestion-box">
+                      <div class="suggestion-header">
+                        <i data-lucide="sparkles" style="width: 14px; height: 14px; color: var(--learnova-primary);"></i>
+                        <strong>AI Improvement Strategy:</strong>
+                      </div>
+                      <p class="suggestion-text">
+                        1. Watch Prof. Verma's <em>Operating Systems: Page Replacement & Virtual Memory</em> in the YouTube Study Hub.<br>
+                        2. Solve 3 manual trace tables for 3-frame and 4-frame page reference strings.<br>
+                        3. Review synchronization definitions in the Subject Notes module.
+                      </p>
+                      <div class="diag-action-btns">
+                        <button class="btn btn-primary" onclick="app.startLiveClass('Operating Systems', 'Prof. Verma')">
+                          <i data-lucide="play" style="width: 12px; height: 12px;"></i>
+                          <span>Watch OS Lecture</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="app.addSpecificTaskToPlanner('Review OS Page Replacement & FIFO Belady Anomaly', 'Operating Systems')">
+                          <i data-lucide="plus" style="width: 12px; height: 12px;"></i>
+                          <span>Add to Planner (30m)</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Subject 2: Engineering Mathematics (Weak) -->
+                  <div class="subject-diagnostic-card status-weak">
+                    <div class="sub-diag-header">
+                      <div class="sub-diag-info">
+                        <div class="sub-diag-tag-row">
+                          <span class="sub-badge badge-warning">⚠️ Needs Attention</span>
+                          <span class="sub-code">MATH-401</span>
+                        </div>
+                        <h4 class="sub-diag-name">Engineering Mathematics (PDE & Calculus)</h4>
+                        <span class="sub-diag-instructor">Prof. Raman • Unit 2 & 4 Syllabus</span>
+                      </div>
+                      <div class="sub-diag-score-box">
+                        <div class="sub-score-pct" style="color: #F59E0B;">59%</div>
+                        <span class="sub-score-lbl">Mastery Level</span>
+                      </div>
+                    </div>
+
+                    <div class="sub-diag-bar">
+                      <div class="sub-diag-fill" style="width: 59%; background: #F59E0B;"></div>
+                    </div>
+
+                    <div class="weak-points-container">
+                      <span class="weak-points-title">⚠️ Identified Weak Points & Knowledge Gaps:</span>
+                      <ul class="weak-points-bullets">
+                        <li>
+                          <strong>Charpit's Method:</strong> 
+                          Struggles to select compatible pairs in auxiliary equations for first-order non-linear PDEs.
+                        </li>
+                        <li>
+                          <strong>Second-Order PDEs:</strong> 
+                          Mistakes in evaluating the discriminant ($B^2 - 4AC$) for Elliptic, Parabolic, and Hyperbolic forms.
+                        </li>
+                        <li>
+                          <strong>Separation of Variables:</strong> 
+                          Difficulty applying Dirichlet boundary conditions to evaluate Fourier constants.
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="diag-suggestion-box">
+                      <div class="suggestion-header">
+                        <i data-lucide="sparkles" style="width: 14px; height: 14px; color: var(--learnova-primary);"></i>
+                        <strong>AI Improvement Strategy:</strong>
+                      </div>
+                      <p class="suggestion-text">
+                        1. Generate the <em>Core Formulas & Theorems Sheet</em> using the AI note generator for Maths Unit 2.<br>
+                        2. Solve 4 university past-year questions specifically on Charpit's complete integral forms.<br>
+                        3. Memorize 1D Wave equation standard product solutions.
+                      </p>
+                      <div class="diag-action-btns">
+                        <button class="btn btn-primary" onclick="app.startLiveClass('math 4 AKTU unit 1', 'Engineering Academy')">
+                          <i data-lucide="play" style="width: 12px; height: 12px;"></i>
+                          <span>Watch Math Lecture</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="app.addSpecificTaskToPlanner('Practice 4 Charpit PDE Problems', 'Mathematics')">
+                          <i data-lucide="plus" style="width: 12px; height: 12px;"></i>
+                          <span>Add to Planner (45m)</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Subject 3: Database Systems (Moderate) -->
+                  <div class="subject-diagnostic-card status-moderate">
+                    <div class="sub-diag-header">
+                      <div class="sub-diag-info">
+                        <div class="sub-diag-tag-row">
+                          <span class="sub-badge badge-info">📘 Moderate</span>
+                          <span class="sub-code">CS-302</span>
+                        </div>
+                        <h4 class="sub-diag-name">Database Systems & Architecture</h4>
+                        <span class="sub-diag-instructor">Prof. Iyer • 6 of 10 Modules completed</span>
+                      </div>
+                      <div class="sub-diag-score-box">
+                        <div class="sub-score-pct" style="color: #3B82F6;">72%</div>
+                        <span class="sub-score-lbl">Mastery Level</span>
+                      </div>
+                    </div>
+
+                    <div class="sub-diag-bar">
+                      <div class="sub-diag-fill" style="width: 72%; background: #3B82F6;"></div>
+                    </div>
+
+                    <div class="weak-points-container">
+                      <span class="weak-points-title">🔍 Minor Knowledge Gaps:</span>
+                      <ul class="weak-points-bullets">
+                        <li>
+                          <strong>B+ Tree Index Balancing:</strong> Node split order when leaf reaches maximum capacity.
+                        </li>
+                        <li>
+                          <strong>3NF vs BCNF:</strong> Testing for dependency-preserving vs lossless join decompositions.
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="diag-suggestion-box">
+                      <div class="suggestion-header">
+                        <i data-lucide="sparkles" style="width: 14px; height: 14px; color: var(--learnova-primary);"></i>
+                        <strong>AI Improvement Strategy:</strong>
+                      </div>
+                      <p class="suggestion-text">
+                        Review SQL indexing chapter notes in the PDF Manager and take the 5-question Diagnostic Self-Test.
+                      </p>
+                      <div class="diag-action-btns">
+                        <button class="btn btn-secondary" onclick="app.switchMainTab('study'); app.switchStudySub('pdf');">
+                          <i data-lucide="folder-open" style="width: 12px; height: 12px;"></i>
+                          <span>Open Database PDF</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Subject 4: Data Structures & Algorithms (Strong) -->
+                  <div class="subject-diagnostic-card status-strong">
+                    <div class="sub-diag-header">
+                      <div class="sub-diag-info">
+                        <div class="sub-diag-tag-row">
+                          <span class="sub-badge badge-success">✅ Strong Subject</span>
+                          <span class="sub-code">CS-201</span>
+                        </div>
+                        <h4 class="sub-diag-name">Data Structures & Algorithms</h4>
+                        <span class="sub-diag-instructor">Prof. Mehta • 6 of 8 Modules completed</span>
+                      </div>
+                      <div class="sub-diag-score-box">
+                        <div class="sub-score-pct" style="color: #10B981;">91%</div>
+                        <span class="sub-score-lbl">Mastery Level</span>
+                      </div>
+                    </div>
+
+                    <div class="sub-diag-bar">
+                      <div class="sub-diag-fill" style="width: 91%; background: #10B981;"></div>
+                    </div>
+
+                    <div class="strong-points-container">
+                      <span style="font-size: 0.78rem; color: #10B981; font-weight: 600;">🌟 Core Strengths:</span>
+                      <span style="font-size: 0.78rem; color: var(--text-secondary); margin-left: 0.4rem;">
+                        Binary Search Trees, Graph Traversal (DFS/BFS), Dynamic Programming Memoization, Time Complexity.
+                      </span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Right: Actionable 7-Day Recovery Roadmap & Quick Actions -->
+              <div class="diagnostic-sidebar-col">
+                
+                <!-- Recovery Plan Card -->
+                <div class="diagnostic-panel" style="margin-bottom: 1.25rem;">
+                  <div class="diag-panel-header">
+                    <div class="diag-panel-title">
+                      <i data-lucide="compass" style="width: 17px; height: 17px; color: var(--learnova-primary);"></i>
+                      <span>7-Day Mastery Action Plan</span>
+                    </div>
+                  </div>
+
+                  <div class="roadmap-timeline">
+                    
+                    <div class="roadmap-step">
+                      <div class="step-marker step-active">1</div>
+                      <div class="step-content">
+                        <div class="step-title-row">
+                          <span class="step-title">Phase 1: Concept Repair</span>
+                          <span class="step-tag tag-urgent">Days 1–2</span>
+                        </div>
+                        <p class="step-desc">
+                          Focus exclusively on the 2 lowest-scoring topics: Page Replacement (OS) & Charpit Auxiliary Equation (Maths).
+                        </p>
+                        <div class="step-subtasks">
+                          <span>✓ Watch 25m targeted lecture</span>
+                          <span>✓ Read synthesized formula sheet</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="roadmap-step">
+                      <div class="step-marker">2</div>
+                      <div class="step-content">
+                        <div class="step-title-row">
+                          <span class="step-title">Phase 2: Active Problem Solving</span>
+                          <span class="step-tag">Days 3–4</span>
+                        </div>
+                        <p class="step-desc">
+                          Solve 5 standard university past-year questions for each weak subject without consulting solution keys.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="roadmap-step">
+                      <div class="step-marker">3</div>
+                      <div class="step-content">
+                        <div class="step-title-row">
+                          <span class="step-title">Phase 3: Diagnostic Validation</span>
+                          <span class="step-tag">Days 5–6</span>
+                        </div>
+                        <p class="step-desc">
+                          Take a 20-minute timed quiz in SIKHSHA COPILOT to verify score progression from 54% to 80%+.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="roadmap-step">
+                      <div class="step-marker">4</div>
+                      <div class="step-content">
+                        <div class="step-title-row">
+                          <span class="step-title">Phase 4: Spaced Recall Lock</span>
+                          <span class="step-tag">Day 7</span>
+                        </div>
+                        <p class="step-desc">
+                          15-minute rapid flashcard session to lock formulas and definitions into long-term memory.
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <button class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;" onclick="app.addWeakAreaTasksToPlanner()">
+                    <i data-lucide="check-circle-2" style="width: 15px; height: 15px;"></i>
+                    <span>Apply Plan to Daily Schedule</span>
+                  </button>
+                </div>
+
+                <!-- Study Habit Diagnostic Insights -->
+                <div class="diagnostic-panel">
+                  <div class="diag-panel-header">
+                    <div class="diag-panel-title">
+                      <i data-lucide="zap" style="width: 17px; height: 17px; color: #F59E0B;"></i>
+                      <span>Study Habit Recommendations</span>
+                    </div>
+                  </div>
+
+                  <div class="habit-insight-list">
+                    <div class="habit-insight-item">
+                      <span class="habit-icon">⏱️</span>
+                      <div>
+                        <strong>Optimal Focus Window:</strong>
+                        <p>Your highest study retention occurs between <strong>9:00 AM – 11:30 AM</strong>. Schedule weak subjects during this peak window.</p>
+                      </div>
+                    </div>
+
+                    <div class="habit-insight-item">
+                      <span class="habit-icon">🔄</span>
+                      <div>
+                        <strong>Pomodoro Calibration:</strong>
+                        <p>Use 45-minute study intervals with 10-minute breaks for Mathematics derivations to avoid cognitive burnout.</p>
+                      </div>
+                    </div>
+
+                    <div class="habit-insight-item">
+                      <span class="habit-icon">🎧</span>
+                      <div>
+                        <strong>Audio Boost:</strong>
+                        <p>Enable 40Hz Gamma waves from the topbar audio menu during problem solving to enhance concentration.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
 
       </section>
 
@@ -2085,7 +2524,7 @@ Your notes auto-save per video and can be saved to your permanent Subject Notes 
             <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
           </div>
 
-          <div class="palette-item-row" onclick="alert('Learnova LMS Help & Support: support@learnova.edu')">
+          <div class="palette-item-row" onclick="alert('SIKHSHA COPILOT Help & Support: support@sikhsha-copilot.edu')">
             <div style="display: flex; align-items: center; gap: 0.6rem;">
               <i data-lucide="help-circle" style="width: 15px; height: 15px; color: var(--text-muted);"></i>
               <span style="font-size: 0.84rem; font-weight: 500;">Help & Support</span>

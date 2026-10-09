@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learnova LMS — Your Journey. Your Future. All-in-one learning platform to plan, learn, track and achieve more every day.">
+  <title>Learnova LMS — Your Journey. Your Future.</title>
+  
+  <link rel="icon" type="image/jpeg" href="assets/avatar.jpg">
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- PDF.js for in-browser PDF rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <!-- Supabase JS Client SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="app-container">
+
+  <!-- ===================================================================
+       LEARNOVA LMS SIDEBAR NAVIGATION (Exact match to design screenshot)
+       =================================================================== -->
+  <aside class="app-sidebar">
+    <div>
+      <!-- Learnova Brand Header -->
+      <div class="sidebar-header">
+        <div class="brand-wrapper" onclick="app.switchMainTab('dashboard')">
+          <div class="brand-icon-box">
+            <i data-lucide="graduation-cap" style="width: 22px; height: 22px; color: #FFFFFF;"></i>
+          </div>
+          <div class="brand-title-wrap">
+            <span class="brand-title">Learnova</span>
+            <span class="brand-tag">LMS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links (11 Items from screenshot) -->
+      <div class="sidebar-nav-container">
+        <button class="nav-link-btn active" data-tab="dashboard">
+          <span class="nav-icon"><i data-lucide="layout-dashboard"></i></span>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-link-btn" data-tab="workspace" data-sub="courses">
+          <span class="nav-icon"><i data-lucide="book-marked"></i></span>
+          <span>My Courses</span>
+        </button>
+
+        <button class="nav-link-btn" data-tab="study" data-sub="youtube">
+          <span class="nav-icon"><i data-lucide="video"></i></span>
+          <span>Live Classes</span>
+        </button>
+
+        <button class="nav-link-btn" data-tab="productivity" data-sub="planner">
+          <span class="nav-icon"><i data-lucide="calendar"></i></span>
+          <span>Calendar</span>
+        </button>
+
+        <button class="nav-link-btn" data-tab="productivity" data-sub="tasks">
+          <span class="nav-icon"><i data-lucide="clipboard-list"></i></span>
+          <span>Assignments</span>
+        </button>
+
+        <button class="nav-link-btn" id="btn-nav-attendance" onclick="app.openAttendanceModal()">
+          <span class="nav-icon"><i data-lucide="user-check"></i></span>
+          <span>Attendance</span>
+        </button>
+
+        <button class="nav-link-btn" id="btn-nav-grades" onclick="app.openGradesModal()">
+          <span class="nav-icon"><i data-lucide="award"></i></span>
+          <span>Grades</span>
+        </button>
+
+        <button class="nav-link-btn" data-tab="productivity" data-sub="planner">
+          <span class="nav-icon"><i data-lucide="clock"></i></span>
+          <span>Study Planner</span>
+        </button>
+
+        <button class="nav-link-btn" data-tab="study" data-sub="pdf">
+          <span class="nav-icon"><i data-lucide="folder-open"></i></span>
+          <span>Resources</span>
+        </button>
+
+        <button class="nav-link-btn" id="btn-nav-messages" onclick="app.openMessagesModal()">
+          <span class="nav-icon"><i data-lucide="message-square"></i></span>
+          <span>Messages</span>
+        </button>
+
+        <button class="nav-link-btn" id="btn-nav-settings" onclick="app.openSettingsModal()">
+          <span class="nav-icon"><i data-lucide="settings"></i></span>
+          <span>Settings</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Learnova Sidebar Footer Profile Card -->
+    <div class="sidebar-footer">
+      <div class="sidebar-profile-card" id="sidebar-profile-btn" onclick="app.openSettingsModal()" title="View Student Profile">
+        <img src="assets/avatar.jpg" alt="Ananya Sharma" class="sidebar-profile-avatar">
+        <div class="sidebar-profile-info">
+          <span class="sidebar-profile-name">Ananya Sharma</span>
+          <span class="sidebar-profile-sub">View Profile</span>
+        </div>
+        <i data-lucide="chevron-right" style="width: 15px; height: 15px; color: var(--text-muted); margin-left: auto;"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Sidebar Backdrop for Mobile Drawer -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+  <!-- ===================================================================
+       MAIN VIEWPORT & LEARNOVA TOPBAR
+       =================================================================== -->
+  <div class="app-main-viewport">
+    
+    <!-- Learnova LMS Topbar (Matching screenshot) -->
+    <header class="topbar">
+      <div style="display: flex; align-items: center; gap: 0.65rem;">
+        <!-- Mobile Menu Toggle Button -->
+        <button class="topbar-icon-btn mobile-menu-toggle" id="btn-mobile-menu" title="Toggle Navigation Menu">
+          <i data-lucide="menu" style="width: 18px; height: 18px;"></i>
+        </button>
+
+        <div class="topbar-greeting-col">
+          <span class="greeting-subtitle">Good Morning,</span>
+          <h1 class="greeting-title">Ananya Sharma 👋</h1>
+          <span class="greeting-tagline">Let's make today productive!</span>
+        </div>
+      </div>
+
+      <div class="topbar-right-col">
+        <!-- Search bar -->
+        <div class="topbar-search-box">
+          <i data-lucide="search" style="width: 15px; height: 15px; color: var(--text-muted); flex-shrink: 0;"></i>
+          <input type="text" class="topbar-search-input" id="learnova-global-search" placeholder="Search for courses, classes...">
+        </div>
+
+        <!-- Notification Bell with badge 3 -->
+        <button class="topbar-icon-btn" id="btn-topbar-notifications" onclick="app.openNotificationsModal()" title="3 Unread Notifications">
+          <i data-lucide="bell" style="width: 17px; height: 17px;"></i>
+          <span class="notification-badge-dot">3</span>
+        </button>
+
+        <!-- Light/Dark Mode Switcher -->
+        <button class="topbar-icon-btn" id="btn-theme-toggle" title="Toggle Theme">
+          <i data-lucide="moon" style="width: 16px; height: 16px;"></i>
+        </button>
+
+        <!-- Profile Avatar -->
+        <img src="assets/avatar.jpg" alt="Ananya Sharma" class="topbar-avatar-img" id="topbar-avatar-btn" onclick="app.openSettingsModal()" title="Student Profile">
+      </div>
+    </header>
+
+    <!-- Scrollable Main View Container -->
+    <main class="main-content-scroll">
+
+      <!-- ===============================================================
+           VIEW 1: LEARNOVA LMS DASHBOARD (Exact Match to Design Image)
+           =============================================================== -->
+      <section class="view-panel active" id="view-dashboard">
+        
+        <div class="learnova-dash-wrap">
+          
+          <!-- ROW 1: 4 KPI CARDS -->
+          <div class="learnova-kpi-grid">
+            <!-- 1. Courses Enrolled -->
+            <div class="learnova-kpi-card" onclick="app.switchMainTab('workspace'); app.switchWorkspaceSub('courses');">
+              <div class="learnova-kpi-info">
+                <span class="learnova-kpi-title">Courses Enrolled</span>
+                <div class="learnova-kpi-val" id="dash-kpi-courses">8</div>
+                <span class="learnova-kpi-sub">Total Courses</span>
+              </div>
+              <div class="learnova-kpi-iconbox iconbox-blue">
+                <i data-lucide="book-open" style="width: 20px; height: 20px;"></i>
+              </div>
+            </div>
+
+            <!-- 2. Classes Today -->
+            <div class="learnova-kpi-card" onclick="app.switchMainTab('productivity'); app.switchProdSub('planner');">
+              <div class="learnova-kpi-info">
+                <span class="learnova-kpi-title">Classes Today</span>
+                <div class="learnova-kpi-val" id="dash-kpi-classes">3</div>
+                <span class="learnova-kpi-sub">Upcoming</span>
+              </div>
+              <div class="learnova-kpi-iconbox iconbox-purple">
+                <i data-lucide="calendar" style="width: 20px; height: 20px;"></i>
+              </div>
+            </div>
+
+            <!-- 3. Assignments Due -->
+            <div class="learnova-kpi-card" onclick="app.switchMainTab('productivity'); app.switchProdSub('tasks');">
+              <div class="learnova-kpi-info">
+                <span class="learnova-kpi-title">Assignments Due</span>
+                <div class="learnova-kpi-val" id="dash-kpi-assignments">2</div>
+                <span class="learnova-kpi-sub">Pending</span>
+              </div>
+              <div class="learnova-kpi-iconbox iconbox-amber">
+                <i data-lucide="clipboard-list" style="width: 20px; height: 20px;"></i>
+              </div>
+            </div>
+
+            <!-- 4. Attendance -->
+            <div class="learnova-kpi-card" id="card-dash-attendance" onclick="app.openAttendanceModal()">
+              <div class="learnova-kpi-info">
+                <span class="learnova-kpi-title">Attendance</span>
+                <div class="learnova-kpi-val" id="dash-kpi-attendance">92%</div>
+                <span class="learnova-kpi-sub">This Month</span>
+              </div>
+              <div class="learnova-kpi-iconbox iconbox-green">
+                <i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 2: TODAY'S SCHEDULE & LEARNING PROGRESS -->
+          <div class="learnova-mid-grid">
+            <!-- 2A: Today's Schedule -->
+            <div class="learnova-card">
+              <div class="learnova-card-header">
+                <div class="learnova-card-title">
+                  <i data-lucide="calendar" style="width: 18px; height: 18px; color: var(--learnova-primary);"></i>
+                  <span>Today's Schedule</span>
+                </div>
+                <span class="learnova-card-action-link" onclick="app.switchMainTab('productivity'); app.switchProdSub('planner');">View All</span>
+              </div>
+
+              <div class="learnova-schedule-list">
+                <!-- Class 1 -->
+                <div class="learnova-schedule-row">
+                  <div class="schedule-left-meta">
+                    <div class="schedule-time-col">
+                      <span class="schedule-time-start">09:00 AM</span>
+                      <span class="schedule-time-end">10:00 AM</span>
+                    </div>
+                    <div class="schedule-divider-dot"></div>
+                    <div class="schedule-info-col">
+                      <span class="schedule-course-title">Data Structures</span>
+                      <span class="schedule-prof-name">Prof. Mehta</span>
+                    </div>
+                  </div>
+                  <button class="schedule-live-pill" onclick="app.startLiveClass('Data Structures', 'Prof. Mehta')">
+                    <span>Live Class</span>
+                    <i data-lucide="chevron-right" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <!-- Class 2 -->
+                <div class="learnova-schedule-row">
+                  <div class="schedule-left-meta">
+                    <div class="schedule-time-col">
+                      <span class="schedule-time-start">11:30 AM</span>
+                      <span class="schedule-time-end">12:30 PM</span>
+                    </div>
+                    <div class="schedule-divider-dot"></div>
+                    <div class="schedule-info-col">
+                      <span class="schedule-course-title">Database Systems</span>
+                      <span class="schedule-prof-name">Prof. Iyer</span>
+                    </div>
+                  </div>
+                  <button class="schedule-live-pill" onclick="app.startLiveClass('Database Systems', 'Prof. Iyer')">
+                    <span>Live Class</span>
+                    <i data-lucide="chevron-right" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+
+                <!-- Class 3 -->
+                <div class="learnova-schedule-row">
+                  <div class="schedule-left-meta">
+                    <div class="schedule-time-col">
+                      <span class="schedule-time-start">02:00 PM</span>
+                      <span class="schedule-time-end">03:00 PM</span>
+                    </div>
+                    <div class="schedule-divider-dot"></div>
+                    <div class="schedule-info-col">
+                      <span class="schedule-course-title">Operating Systems</span>
+                      <span class="schedule-prof-name">Prof. Verma</span>
+                    </div>
+                  </div>
+                  <button class="schedule-live-pill" onclick="app.startLiveClass('Operating Systems', 'Prof. Verma')">
+                    <span>Live Class</span>
+                    <i data-lucide="chevron-right" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2B: Learning Progress -->
+            <div class="learnova-card">
+              <div class="learnova-card-header">
+                <div class="learnova-card-title">
+                  <i data-lucide="pie-chart" style="width: 18px; height: 18px; color: var(--learnova-primary);"></i>
+                  <span>Learning Progress</span>
+                </div>
+                <div class="learnova-card-pill-select">
+                  <span>This Week</span>
+                  <i data-lucide="chevron-down" style="width: 12px; height: 12px;"></i>
+                </div>
+              </div>
+
+              <div class="learnova-progress-body">
+                <!-- Donut Chart -->
+                <div class="learnova-donut-container">
+                  <svg class="donut-svg" viewBox="0 0 140 140">
+                    <circle class="donut-circle-bg" cx="70" cy="70" r="54"></circle>
+                    <circle class="donut-circle-progress" cx="70" cy="70" r="54" id="donut-progress-circle"></circle>
+                  </svg>
+                  <div class="donut-center-content">
+                    <span class="donut-center-pct" id="dash-donut-pct">72%</span>
+                    <span class="donut-center-lbl">Overall Progress</span>
+                  </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="learnova-progress-legend">
+                  <div class="progress-legend-row">
+                    <div class="legend-bullet-label">
+                      <span class="legend-bullet bullet-purple"></span>
+                      <span>Completed</span>
+                    </div>
+                    <span class="legend-val">72%</span>
+                  </div>
+
+                  <div class="progress-legend-row">
+                    <div class="legend-bullet-label">
+                      <span class="legend-bullet bullet-amber"></span>
+                      <span>In Progress</span>
+                    </div>
+                    <span class="legend-val">20%</span>
+                  </div>
+
+                  <div class="progress-legend-row">
+                    <div class="legend-bullet-label">
+                      <span class="legend-bullet bullet-slate"></span>
+                      <span>Not Started</span>
+                    </div>
+                    <span class="legend-val">8%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 3: STUDY GOALS, CURRENT STREAK & PERFORMANCE OVERVIEW -->
+          <div class="learnova-bot-grid">
+            <!-- 3A: Study Goals -->
+            <div class="learnova-card">
+              <div class="learnova-card-header">
+                <div class="learnova-card-title">
+                  <i data-lucide="target" style="width: 18px; height: 18px; color: var(--learnova-primary);"></i>
+                  <span>Study Goals</span>
+                </div>
+                <span class="learnova-card-action-link" onclick="app.switchMainTab('workspace'); app.switchWorkspaceSub('goals');">View All</span>
+              </div>
+
+              <div class="learnova-goals-list">
+                <!-- Goal 1 -->
+                <div class="goal-item-card">
+                  <div class="goal-top-line">
+                    <span class="goal-title-txt">Complete DSA Module</span>
+                    <span class="goal-pct-txt">72%</span>
+                  </div>
+                  <span class="goal-target-date">Target: 20 Oct 2024</span>
+                  <div class="goal-progress-track">
+                    <div class="goal-progress-fill" style="width: 72%;"></div>
+                  </div>
+                </div>
+
+                <!-- Goal 2 -->
+                <div class="goal-item-card">
+                  <div class="goal-top-line">
+                    <span class="goal-title-txt">Read 2 Books this Month</span>
+                    <span class="goal-pct-txt">50%</span>
+                  </div>
+                  <span class="goal-target-date">Target: 31 Oct 2024</span>
+                  <div class="goal-progress-track">
+                    <div class="goal-progress-fill" style="width: 50%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3B: Current Streak -->
+            <div class="learnova-streak-card" onclick="app.openCelebrationModal()">
+              <div class="streak-card-top">
+                <i data-lucide="flame" style="width: 15px; height: 15px;"></i>
+                <span>Current Streak</span>
+              </div>
+
+              <div class="streak-flame-bubble">
+                🔥
+              </div>
+
+              <div class="streak-big-val" id="dash-streak-days">12</div>
+              <span class="streak-lbl-days">Days</span>
+
+              <div class="streak-footer-motto">
+                Keep it up! You're doing great.
+              </div>
+            </div>
+
+            <!-- 3C: Performance Overview -->
+            <div class="learnova-card">
+              <div class="learnova-card-header">
+                <div class="learnova-card-title">
+                  <i data-lucide="trending-up" style="width: 18px; height: 18px; color: var(--learnova-primary);"></i>
+                  <span>Performance Overview</span>
+                </div>
+                <div class="learnova-card-pill-select">
+                  <span>This Month</span>
+                  <i data-lucide="chevron-down" style="width: 12px; height: 12px;"></i>
+                </div>
+              </div>
+
+              <div class="learnova-chart-wrap">
+                <!-- Peak Value Badge Pin -->
+                <div class="chart-peak-pin">85</div>
+
+                <svg viewBox="0 0 340 140" style="width: 100%; height: 100%; overflow: visible;">
+                  <defs>
+                    <linearGradient id="chartWaveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#5D5FEF" stop-opacity="0.35"/>
+                      <stop offset="100%" stop-color="#5D5FEF" stop-opacity="0.0"/>
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Horizontal Gridlines & Y-Axis Labels -->
+                  <g opacity="0.4">
+                    <line x1="25" y1="20" x2="330" y2="20" stroke="var(--border-subtle)" stroke-dasharray="3 3"/>
+                    <text x="0" y="24" fill="var(--text-muted)" font-size="8" font-family="var(--font-sans)">100</text>
+
+                    <line x1="25" y1="45" x2="330" y2="45" stroke="var(--border-subtle)" stroke-dasharray="3 3"/>
+                    <text x="5" y="49" fill="var(--text-muted)" font-size="8" font-family="var(--font-sans)">75</text>
+
+                    <line x1="25" y1="70" x2="330" y2="70" stroke="var(--border-subtle)" stroke-dasharray="3 3"/>
+                    <text x="5" y="74" fill="var(--text-muted)" font-size="8" font-family="var(--font-sans)">50</text>
+
+                    <line x1="25" y1="95" x2="330" y2="95" stroke="var(--border-subtle)" stroke-dasharray="3 3"/>
+                    <text x="5" y="99" fill="var(--text-muted)" font-size="8" font-family="var(--font-sans)">25</text>
+
+                    <line x1="25" y1="120" x2="330" y2="120" stroke="var(--border-subtle)"/>
+                    <text x="10" y="124" fill="var(--text-muted)" font-size="8" font-family="var(--font-sans)">0</text>
+                  </g>
+
+                  <!-- Area Fill -->
+                  <path d="M 28,105 C 55,95 75,75 100,82 C 125,89 145,55 175,60 C 205,65 240,32 275,34 C 300,36 315,65 330,70 L 330,120 L 28,120 Z" 
+                        fill="url(#chartWaveGrad)"/>
+
+                  <!-- Smooth Curved Wave Line -->
+                  <path d="M 28,105 C 55,95 75,75 100,82 C 125,89 145,55 175,60 C 205,65 240,32 275,34 C 300,36 315,65 330,70" 
+                        fill="none" 
+                        stroke="#5D5FEF" 
+                        stroke-width="2.5" 
+                        stroke-linecap="round"/>
+
+                  <!-- Active Point at Peak 85 -->
+                  <circle cx="275" cy="34" r="4.5" fill="#5D5FEF" stroke="#FFFFFF" stroke-width="2"/>
+
+                  <!-- X-Axis Labels -->
+                  <g fill="var(--text-muted)" font-size="8.5" font-family="var(--font-sans)">
+                    <text x="35" y="136">1 Oct</text>
+                    <text x="100" y="136">8 Oct</text>
+                    <text x="165" y="136">15 Oct</text>
+                    <text x="235" y="136">22 Oct</text>
+                    <text x="295" y="136">29 Oct</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===============================================================
+           VIEW 2: STUDY HUB (NOTES, YOUTUBE, PDF)
+           =============================================================== -->
+      <section class="view-panel" id="view-study">
+        
+        <!-- Subbar Segment Switcher -->
+        <div class="section-subbar">
+          <div class="segmented-control" id="study-sub-pills">
+            <button class="segment-btn active" data-sub="notes">
+              <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+              <span>Subject Notes</span>
+            </button>
+            <button class="segment-btn" data-sub="youtube">
+              <i data-lucide="play-circle" style="width: 14px; height: 14px;"></i>
+              <span>YouTube Study</span>
+            </button>
+            <button class="segment-btn" data-sub="pdf">
+              <i data-lucide="book-open" style="width: 14px; height: 14px;"></i>
+              <span>PDF Manager</span>
+            </button>
+          </div>
+
+          <div style="font-size: 0.8rem; color: var(--text-muted);">
+            Unified study workspace without switching windows.
+          </div>
+        </div>
+
+        <!-- 2A. SUBJECT NOTES -->
+        <div class="study-subview active" id="study-view-notes">
+          <div class="notes-layout">
+            
+            <!-- Left Nav Column: Subjects & Notes List -->
+            <div class="notes-nav-col">
+              <!-- Subjects -->
+              <div class="card" style="padding: 0.85rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <span class="form-label" style="margin-bottom: 0;">Subjects</span>
+                  <button class="btn-icon" id="btn-add-subject" title="Add Subject" style="width: 22px; height: 22px;">+</button>
+                </div>
+                <div id="notes-subjects-list"></div>
+              </div>
+
+              <!-- Notes List -->
+              <div class="card" style="flex: 1; padding: 0.85rem; display: flex; flex-direction: column; overflow: hidden;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+                  <span class="form-label" style="margin-bottom: 0;">Notes</span>
+                  <button class="btn btn-primary" id="btn-new-note" style="padding: 0.25rem 0.65rem; font-size: 0.75rem;">+ New</button>
+                </div>
+                <input type="text" class="form-input" id="notes-search-input" placeholder="Search notes or tags..." style="margin-bottom: 0.65rem;">
+                <div style="flex: 1; overflow-y: auto;" id="notes-card-list"></div>
+              </div>
+            </div>
+
+            <!-- Right Column: Note Editor & Markdown Live Preview -->
+            <div class="editor-workspace">
+              <div class="editor-header-bar">
+                <input type="text" class="editor-title-input" id="note-editor-title" placeholder="Note Title...">
+                
+                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                  <select class="form-input" id="note-subject-select" style="width: auto; padding: 0.35rem 0.6rem; font-size: 0.78rem;"></select>
+                  <input type="text" class="form-input" id="note-tags-input" placeholder="Tags..." style="width: 140px; font-size: 0.78rem;">
+
+                  <!-- Split / Edit / Preview Toggle -->
+                  <div class="segmented-control">
+                    <button class="segment-btn note-view-mode-btn active" data-mode="split">Split</button>
+                    <button class="segment-btn note-view-mode-btn" data-mode="edit">Edit</button>
+                    <button class="segment-btn note-view-mode-btn" data-mode="preview">Preview</button>
+                  </div>
+
+                  <button class="btn-icon" id="btn-export-note" title="Export Markdown">
+                    <i data-lucide="download" style="width: 13px; height: 13px;"></i>
+                  </button>
+                  <button class="btn-icon" id="btn-delete-note" title="Delete Note">
+                    <i data-lucide="trash-2" style="width: 13px; height: 13px;"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="editor-pane-body" id="note-editor-body">
+                <textarea class="markdown-textarea" id="note-markdown-textarea" placeholder="Type Markdown here... Supports equations, code, tables, and checklists."></textarea>
+                <div class="markdown-preview-pane" id="note-markdown-preview"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 2B. YOUTUBE STUDY -->
+        <div class="study-subview" id="study-view-youtube">
+          
+          <!-- YouTube Top Action Bar: Live YouTube Search & URL Load -->
+          <div class="card yt-quick-bar" style="margin-bottom: 1.25rem;">
+            <div class="yt-quick-input-wrap">
+              <div class="yt-brand-badge">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                <span>YouTube</span>
+              </div>
+              <input type="text" class="form-input yt-quick-input" id="input-quick-yt-url" placeholder="Search any topic (e.g. 'math 4 AKTU unit 1', 'operating systems') or paste YouTube link...">
+              <button class="btn btn-primary" id="btn-quick-yt-search">
+                <i data-lucide="search" style="width: 14px; height: 14px;"></i>
+                <span>Search</span>
+              </button>
+              <button class="btn btn-secondary" id="btn-quick-yt-play" title="Load direct YouTube URL">
+                <i data-lucide="play" style="width: 14px; height: 14px;"></i>
+                <span>Load URL</span>
+              </button>
+              <button class="btn btn-secondary" id="btn-yt-api-settings" title="Configure YouTube Data API v3 Key">
+                <i data-lucide="key" style="width: 14px; height: 14px;"></i>
+                <span id="yt-api-key-label">API Key</span>
+              </button>
+              <button class="btn btn-secondary" id="btn-add-yt-video" title="Add custom video to library">
+                <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+                <span>+ Custom</span>
+              </button>
+            </div>
+
+            <!-- Suggested Search Chips -->
+            <div class="yt-suggested-queries-row" style="margin-top: 0.75rem; padding-top: 0.65rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 500;">Suggested:</span>
+              <button class="yt-chip-btn" data-query="math 4 AKTU unit 1">🎓 math 4 AKTU unit 1</button>
+              <button class="yt-chip-btn" data-query="maths 4 AKTU unit 2">📐 maths 4 AKTU unit 2</button>
+              <button class="yt-chip-btn" data-query="operating systems gate smashers">💻 operating systems gate smashers</button>
+              <button class="yt-chip-btn" data-query="discrete mathematics aktu">📊 discrete mathematics aktu</button>
+              <button class="yt-chip-btn" data-query="Andrej Karpathy micrograd">🧠 karpathy micrograd</button>
+              <button class="yt-chip-btn" data-query="MIT 6.006 algorithms">⚡ MIT 6.006 algorithms</button>
+            </div>
+          </div>
+
+          <!-- YouTube Live Search Results Container (hidden when not searching) -->
+          <div class="card yt-live-search-panel" id="yt-live-search-panel" style="display: none; margin-bottom: 1.5rem;">
+            <div class="card-header" style="margin-bottom: 0.75rem;">
+              <div class="card-title">
+                <i data-lucide="youtube" style="width: 16px; height: 16px; color: #ef4444;"></i>
+                <span id="yt-search-results-heading">YouTube Search Results</span>
+              </div>
+              <button class="btn-icon" id="btn-close-yt-search" title="Close Search Results" style="width: 24px; height: 24px;">✕</button>
+            </div>
+
+            <!-- Loading Spinner State -->
+            <div id="yt-search-loading" style="display: none; padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+              <div class="spinner" style="display: inline-block; width: 22px; height: 22px; border: 2px solid var(--border-medium); border-top-color: var(--accent-primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 0.5rem;"></div>
+              <div>Searching YouTube live...</div>
+            </div>
+
+            <!-- Results List -->
+            <div class="yt-search-results-grid" id="yt-search-results-grid"></div>
+          </div>
+
+          <div class="yt-grid-layout" id="yt-study-container">
+            
+            <!-- Left: Player & Info -->
+            <div class="yt-left-column">
+              <div class="yt-player-box">
+                <iframe id="yt-player-iframe" src="https://www.youtube.com/embed/VMj-3S1tku0?enablejsapi=1&rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+              </div>
+
+              <div class="card" style="margin-top: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;">
+                  <div>
+                    <h3 id="yt-current-title" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem;">Neural Networks: Zero to Hero</h3>
+                    <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+                      <p id="yt-current-channel" style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Andrej Karpathy • Lecture</p>
+                      <a id="yt-external-link" href="https://www.youtube.com/watch?v=VMj-3S1tku0" target="_blank" rel="noopener noreferrer" style="font-size: 0.74rem; color: var(--accent-primary); text-decoration: none; font-weight: 500;">
+                        Watch on YouTube ↗
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Quick Controls Cluster -->
+                  <div class="yt-controls-cluster">
+                    <!-- Jump Buttons -->
+                    <div class="btn-group" style="display: inline-flex; gap: 2px;">
+                      <button class="btn btn-secondary" id="btn-yt-rewind-10" title="Rewind 10 seconds" style="padding: 0.35rem 0.65rem; font-size: 0.76rem;">
+                        <span>⏪ -10s</span>
+                      </button>
+                      <button class="btn btn-secondary" id="btn-yt-forward-10" title="Forward 10 seconds" style="padding: 0.35rem 0.65rem; font-size: 0.76rem;">
+                        <span>+10s ⏩</span>
+                      </button>
+                    </div>
+
+                    <!-- Playback Speed -->
+                    <div class="segmented-control">
+                      <button class="segment-btn yt-speed-btn" data-speed="0.75">0.75x</button>
+                      <button class="segment-btn yt-speed-btn active" data-speed="1">1x</button>
+                      <button class="segment-btn yt-speed-btn" data-speed="1.25">1.25x</button>
+                      <button class="segment-btn yt-speed-btn" data-speed="1.5">1.5x</button>
+                      <button class="segment-btn yt-speed-btn" data-speed="2">2x</button>
+                    </div>
+
+                    <button class="btn btn-secondary" id="btn-yt-log-session" title="Log this study session to tracker">
+                      <i data-lucide="clock" style="width: 13px; height: 13px;"></i>
+                      <span>Log 30m</span>
+                    </button>
+
+                    <button class="btn btn-secondary" id="btn-yt-theater" title="Toggle Theater Mode">
+                      <i data-lucide="maximize" style="width: 13px; height: 13px;"></i>
+                      <span>Theater</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 📝 QUICK NOTES SECTION (Directly Below YouTube Video) -->
+              <div class="card yt-quick-notes-card" style="margin-top: 1rem;">
+                <div class="card-header" style="margin-bottom: 0.65rem; flex-wrap: wrap; gap: 0.5rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i data-lucide="edit-3" style="width: 16px; height: 16px; color: var(--accent-emerald);"></i>
+                    <span style="font-weight: 700; font-size: 0.95rem;">Quick Lecture Notes</span>
+                    <span class="badge badge-emerald" id="yt-quick-note-save-status" style="font-size: 0.68rem; font-weight: 500;">● Auto-saved</span>
+                  </div>
+
+                  <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" id="btn-yt-insert-timestamp" title="Insert current video timestamp into notes" style="padding: 0.28rem 0.65rem; font-size: 0.74rem;">
+                      <span id="yt-insert-time-pill">⏱️ 00:00</span>
+                      <span style="margin-left: 0.3rem;">Insert Time</span>
+                    </button>
+                    <button class="btn btn-secondary" id="btn-yt-save-to-notebook" title="Save this quick note directly into Subject Notes" style="padding: 0.28rem 0.65rem; font-size: 0.74rem;">
+                      <i data-lucide="bookmark-plus" style="width: 13px; height: 13px;"></i>
+                      <span>Save to Notebook</span>
+                    </button>
+                    <button class="btn-icon" id="btn-yt-clear-quick-notes" title="Clear Quick Notes" style="width: 26px; height: 26px;">
+                      <i data-lucide="trash-2" style="width: 13px; height: 13px;"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Formatting Toolbar -->
+                <div class="yt-quick-notes-toolbar" style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.5rem; flex-wrap: wrap; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border-subtle);">
+                  <button class="btn-icon yt-fmt-btn" data-fmt="bold" title="Bold (**text**)" style="width: 26px; height: 26px; font-weight: 700; font-size: 0.8rem;">B</button>
+                  <button class="btn-icon yt-fmt-btn" data-fmt="italic" title="Italic (*text*)" style="width: 26px; height: 26px; font-style: italic; font-size: 0.8rem;">I</button>
+                  <button class="btn-icon yt-fmt-btn" data-fmt="h2" title="Section Heading (## Title)" style="width: 26px; height: 26px; font-weight: 600; font-size: 0.74rem;">H2</button>
+                  <button class="btn-icon yt-fmt-btn" data-fmt="list" title="Bullet item (- Item)" style="width: 26px; height: 26px; font-size: 0.8rem;">•-</button>
+                  <button class="btn-icon yt-fmt-btn" data-fmt="code" title="Code snippet" style="width: 26px; height: 26px; font-family: var(--font-mono); font-size: 0.74rem;">&lt;&gt;</button>
+                  <button class="btn-icon yt-fmt-btn" data-fmt="quote" title="Key Takeaway callout" style="width: 26px; height: 26px; font-size: 0.8rem;">❝</button>
+                  <button class="btn-icon yt-fmt-btn" data-fmt="formula" title="Formula ($$formula$$)" style="width: 26px; height: 26px; font-size: 0.74rem; font-family: var(--font-mono);">∑</button>
+                  <span style="margin-left: auto; font-size: 0.72rem; color: var(--text-muted);" id="yt-quick-notes-wordcount">0 words</span>
+                </div>
+
+                <!-- Textarea -->
+                <textarea class="form-input yt-quick-notes-textarea" id="yt-quick-notes-textarea" placeholder="Write notes here in real-time while watching the lecture...
+Click 'Insert Time' to bookmark current second.
+Your notes auto-save per video and can be saved to your permanent Subject Notes notebook." style="min-height: 150px; resize: vertical; font-family: var(--font-mono); font-size: 0.84rem; line-height: 1.6; padding: 0.85rem; border-radius: var(--radius-sm);"></textarea>
+              </div>
+
+              <!-- Lecture Library Shelf Card -->
+              <div class="card" style="margin-top: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.75rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="form-label" style="margin-bottom: 0;">Educational Lecture Shelf</span>
+                    <span class="badge badge-secondary" id="yt-library-count">6 Lectures</span>
+                  </div>
+
+                  <!-- Subject Filter Chips & Search -->
+                  <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <div class="segmented-control yt-shelf-filters" id="yt-shelf-filter-group">
+                      <button class="segment-btn active" data-filter="all">All</button>
+                      <button class="segment-btn" data-filter="subj-1">ML & AI</button>
+                      <button class="segment-btn" data-filter="subj-2">Algorithms</button>
+                      <button class="segment-btn" data-filter="subj-3">Systems</button>
+                      <button class="segment-btn" data-filter="subj-4">Math</button>
+                    </div>
+
+                    <div style="position: relative;">
+                      <input type="text" class="form-input" id="yt-shelf-search" placeholder="Search shelf..." style="padding: 0.25rem 0.6rem 0.25rem 1.6rem; font-size: 0.76rem; width: 140px;">
+                      <i data-lucide="search" style="position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); width: 11px; height: 11px; color: var(--text-muted); pointer-events: none;"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="yt-curated-list" id="yt-curated-list"></div>
+              </div>
+            </div>
+
+            <!-- Right Column: Generate Notes for Running Video & Synchronized Timestamps -->
+            <div class="card yt-timestamps-panel">
+              
+              <!-- Tab Switcher Header (Generate Notes vs Timestamp Pins) -->
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; padding-bottom: 0.65rem; border-bottom: 1px solid var(--border-subtle); flex-wrap: wrap; gap: 0.5rem;">
+                <div class="segmented-control" id="yt-right-tabs-toggle">
+                  <button class="segment-btn active" id="yt-tab-btn-generate" data-panel="generate">
+                    <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--accent-amber);"></i>
+                    <span>Generate Notes</span>
+                  </button>
+                  <button class="segment-btn" id="yt-tab-btn-bookmarks" data-panel="bookmarks">
+                    <i data-lucide="bookmark" style="width: 13px; height: 13px; color: var(--accent-sky);"></i>
+                    <span>Timestamps</span>
+                  </button>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 0.35rem;">
+                  <span class="badge badge-primary" id="yt-current-time-badge" style="font-family: var(--font-mono); font-size: 0.76rem;">00:00</span>
+                  <button class="btn-icon" id="btn-yt-export-markdown" title="Export Notes as Markdown (.md)" style="width: 24px; height: 24px;">
+                    <i data-lucide="download" style="width: 12px; height: 12px;"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- PANE A: ✨ GENERATE NOTES FOR RUNNING VIDEO -->
+              <div id="yt-pane-generate-notes" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+                <!-- Preset Generation Options -->
+                <div style="margin-bottom: 0.65rem;">
+                  <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 500;">
+                    Choose Note Focus:
+                  </div>
+                  <div class="yt-gen-preset-chips" id="yt-gen-preset-group" style="display: flex; gap: 0.3rem; flex-wrap: wrap;">
+                    <button class="yt-chip-btn active" data-mode="full">📑 Full Syllabus Notes</button>
+                    <button class="yt-chip-btn" data-mode="concepts">💡 Core Formulas & Theorems</button>
+                    <button class="yt-chip-btn" data-mode="exam">⚠️ Exam Focus & Pitfalls</button>
+                    <button class="yt-chip-btn" data-mode="quiz">🎯 Self-Test Practice</button>
+                  </div>
+                </div>
+
+                <!-- Generate Action Button -->
+                <button class="btn btn-primary" id="btn-yt-generate-ai-notes" style="width: 100%; padding: 0.55rem; font-size: 0.82rem; font-weight: 600; justify-content: center; margin-bottom: 0.75rem; box-shadow: 0 2px 10px rgba(99, 102, 241, 0.25);">
+                  <i data-lucide="sparkles" style="width: 15px; height: 15px;"></i>
+                  <span>Generate Notes for Running Video</span>
+                </button>
+
+                <!-- Loading State Shimmer -->
+                <div id="yt-gen-notes-loading" style="display: none; padding: 2rem 1rem; text-align: center; color: var(--text-muted);">
+                  <div class="spinner" style="display: inline-block; width: 24px; height: 24px; border: 2.5px solid var(--border-medium); border-top-color: var(--accent-primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 0.65rem;"></div>
+                  <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.2rem;">Generating Study Notes...</div>
+                  <div style="font-size: 0.74rem;">Structuring key formulas, derivations, and syllabus points for this lecture.</div>
+                </div>
+
+                <!-- Output Display & Action Bar -->
+                <div id="yt-gen-notes-output-wrap" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+                  <!-- Output Action Toolbar (Copy, Save, Append) -->
+                  <div id="yt-gen-notes-actions" style="display: none; justify-content: space-between; align-items: center; padding: 0.35rem 0.5rem; background: var(--bg-surface-active); border-radius: var(--radius-xs); margin-bottom: 0.5rem; font-size: 0.74rem;">
+                    <span style="font-weight: 600; color: var(--accent-emerald);">✅ Notes Generated</span>
+                    <div style="display: flex; gap: 0.35rem;">
+                      <button class="btn btn-secondary" id="btn-yt-copy-gen-notes" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;">
+                        📋 Copy
+                      </button>
+                      <button class="btn btn-secondary" id="btn-yt-append-to-quick" title="Append to Quick Notes below video" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;">
+                        ➕ Add to Quick Notes
+                      </button>
+                      <button class="btn btn-secondary" id="btn-yt-save-gen-to-notebook" title="Save as permanent Subject Note" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;">
+                        📥 Save to Notebook
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Scrollable Rendered Markdown Notes Area -->
+                  <div class="yt-gen-notes-content" id="yt-gen-notes-content" style="flex: 1; overflow-y: auto; padding: 0.65rem; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font-size: 0.82rem; line-height: 1.6;">
+                    <div style="padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); font-size: 0.8rem;">
+                      <div style="font-size: 1.8rem; margin-bottom: 0.4rem;">✨</div>
+                      <strong>No notes generated yet for this lecture.</strong><br>
+                      Click <em>"Generate Notes for Running Video"</em> above to get instant structured notes, equations, and exam tips.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PANE B: ⏱️ TIMESTAMPS & BOOKMARKS (Hidden when Generate Notes is active) -->
+              <div id="yt-pane-timestamps" style="display: none; flex-direction: column; flex: 1; overflow: hidden;">
+                <!-- Notes list container -->
+                <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem;" id="yt-notes-list"></div>
+
+                <!-- Quick Add Note at Current Time with Tag Chips -->
+                <div style="margin-top: 0.75rem; border-top: 1px solid var(--border-subtle); padding-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                  <div class="yt-tag-chips-row" id="yt-tag-chips-group">
+                    <span class="yt-tag-chip" data-tag="💡 Concept">💡 Concept</span>
+                    <span class="yt-tag-chip" data-tag="📐 Formula">📐 Formula</span>
+                    <span class="yt-tag-chip" data-tag="⚠️ Exam">⚠️ Exam</span>
+                    <span class="yt-tag-chip" data-tag="❓ Question">❓ Question</span>
+                  </div>
+
+                  <div style="display: flex; gap: 0.4rem;">
+                    <input type="text" class="form-input" id="yt-new-note-text" placeholder="Note down key insight or observation..." style="flex: 1;">
+                    <button class="btn btn-primary" id="btn-add-yt-note" title="Pin note at current playback second">
+                      <span>⏱️ Pin Note</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 2C. PDF STUDY MANAGER (RESIZABLE & FULLY RESPONSIVE) -->
+        <div class="study-subview" id="study-view-pdf">
+          <div class="pdf-workspace-container" id="pdf-workspace-container">
+            
+            <!-- Left: Resizable Document Library Sidebar -->
+            <div class="pdf-sidebar-pane" id="pdf-sidebar-pane">
+              <div class="card" style="padding: 0.85rem; margin-bottom: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <span class="form-label" style="margin-bottom: 0;">Upload Document</span>
+                  <span class="badge badge-neutral" style="font-size: 0.68rem;">PDF</span>
+                </div>
+                <div class="pdf-drop-target" id="pdf-drop-zone">
+                  <i data-lucide="upload-cloud" style="width: 22px; height: 22px; color: var(--text-muted); margin-bottom: 0.25rem;"></i>
+                  <div style="font-size: 0.78rem; font-weight: 500;">Drop PDF or Click to Browse</div>
+                  <input type="file" id="pdf-file-input" accept="application/pdf" style="display: none;">
+                </div>
+              </div>
+
+              <div class="card" style="flex: 1; padding: 0.85rem; overflow-y: auto; display: flex; flex-direction: column;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <span class="form-label" style="margin-bottom: 0;">PDF Documents</span>
+                  <span class="badge badge-secondary" id="pdf-doc-count-badge">2 Files</span>
+                </div>
+                <div id="pdf-items-list" style="display: flex; flex-direction: column; gap: 0.45rem;"></div>
+              </div>
+            </div>
+
+            <!-- Resizer Handle 1: Horizontal splitter between Document Sidebar and PDF Workspace -->
+            <div class="pdf-resizer-bar pdf-resizer-sidebar" id="pdf-resizer-sidebar" title="Drag to resize documents sidebar"></div>
+
+            <!-- Right: PDF Reader & Resizable Split Notes Workspace -->
+            <div class="pdf-view-split" id="pdf-viewer-workspace">
+              
+              <!-- PDF Viewer Canvas Card -->
+              <div class="card pdf-canvas-card" id="pdf-canvas-card" style="display: flex; flex-direction: column; padding: 0; overflow: hidden; flex: 1;">
+                <!-- Responsive PDF Controls Bar -->
+                <div class="pdf-controls-toolbar" style="padding: 0.45rem 0.85rem; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); flex-wrap: wrap; gap: 0.5rem;">
+                  <div style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem;">
+                    <!-- Mobile Sidebar Toggle -->
+                    <button class="btn btn-secondary" id="btn-pdf-toggle-sidebar" title="Toggle Documents Sidebar" style="padding: 0.25rem 0.5rem; font-size: 0.72rem;">
+                      <i data-lucide="folder" style="width: 12px; height: 12px;"></i>
+                      <span>Files</span>
+                    </button>
+
+                    <button class="btn-icon" id="btn-pdf-prev" title="Previous Page" style="width: 24px; height: 24px;">◀</button>
+                    <span>Page</span>
+                    <input type="number" class="form-input" id="pdf-page-num" value="1" min="1" style="width: 44px; padding: 0.15rem; text-align: center; font-size: 0.78rem;">
+                    <span>of <span id="pdf-page-count">12</span></span>
+                    <button class="btn-icon" id="btn-pdf-next" title="Next Page" style="width: 24px; height: 24px;">▶</button>
+                  </div>
+
+                  <!-- Zoom & Fit Controls Cluster -->
+                  <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
+                    <div class="btn-group" style="display: inline-flex; gap: 2px;">
+                      <button class="btn btn-secondary" id="btn-pdf-zoom-out" title="Zoom Out (-)" style="padding: 0.25rem 0.55rem; font-size: 0.74rem;">-</button>
+                      <button class="btn btn-secondary" id="btn-pdf-zoom-in" title="Zoom In (+)" style="padding: 0.25rem 0.55rem; font-size: 0.74rem;">+</button>
+                    </div>
+
+                    <button class="btn btn-secondary" id="btn-pdf-fit-width" title="Fit PDF to available container width" style="padding: 0.25rem 0.55rem; font-size: 0.72rem;">
+                      ↔ Fit Width
+                    </button>
+                    <button class="btn btn-secondary" id="btn-pdf-fit-page" title="Fit entire page in view" style="padding: 0.25rem 0.55rem; font-size: 0.72rem;">
+                      ↕ Fit Page
+                    </button>
+                    <button class="btn btn-secondary" id="btn-pdf-toggle-notes" title="Toggle side-by-side study notes" style="padding: 0.25rem 0.6rem; font-size: 0.74rem;">
+                      Split Notes
+                    </button>
+                  </div>
+                </div>
+
+                <!-- PDF Canvas Scrollport -->
+                <div class="pdf-canvas-wrap" id="pdf-canvas-container">
+                  <canvas id="pdf-canvas"></canvas>
+                </div>
+              </div>
+
+              <!-- Resizer Handle 2: Vertical splitter between PDF Canvas and Split Notes -->
+              <div class="pdf-resizer-bar pdf-resizer-notes" id="pdf-resizer-notes" title="Drag to resize notes pane"></div>
+
+              <!-- Attached Resizable Split Notes Pane -->
+              <div class="card pdf-split-notes-pane" id="pdf-split-notes-pane" style="display: flex; flex-direction: column;">
+                <div class="card-header" style="margin-bottom: 0.35rem; padding-bottom: 0.45rem; border-bottom: 1px solid var(--border-subtle);">
+                  <div class="card-title">
+                    <i data-lucide="edit-3" style="width: 15px; height: 15px; color: var(--accent-emerald);"></i>
+                    <span>Side-by-Side Notes</span>
+                  </div>
+                  <span class="card-subtitle" id="pdf-current-doc-title">Document</span>
+                </div>
+                <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.35rem;">
+                  Auto-saved for this PDF document.
+                </div>
+                <textarea id="pdf-split-notes-textarea" class="form-input" style="flex: 1; resize: none; font-size: 0.85rem; line-height: 1.6; font-family: var(--font-mono); border-radius: var(--radius-sm);" placeholder="Type study notes directly while reading the PDF document..."></textarea>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ===============================================================
+           VIEW 3: PRODUCTIVITY (PLANNER, KANBAN, TRACKER)
+           =============================================================== -->
+      <section class="view-panel" id="view-productivity">
+        
+        <div class="section-subbar">
+          <div class="segmented-control" id="prod-sub-pills">
+            <button class="segment-btn active" data-sub="planner">
+              <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+              <span>Today's Plan</span>
+            </button>
+            <button class="segment-btn" data-sub="tasks">
+              <i data-lucide="check-square" style="width: 14px; height: 14px;"></i>
+              <span>Task List</span>
+            </button>
+            <button class="segment-btn" data-sub="tracker">
+              <i data-lucide="activity" style="width: 14px; height: 14px;"></i>
+              <span>Study Tracker</span>
+            </button>
+          </div>
+
+          <button class="btn btn-primary" id="btn-add-task-modal">
+            + New Task
+          </button>
+        </div>
+
+        <!-- 3A. TODAY'S PLANNER (TIME BLOCKS) -->
+        <div class="prod-subview active" id="prod-view-planner">
+          <div class="planner-grid-cols">
+            
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>🌅</span>
+                  <span>Morning</span>
+                </div>
+                <span class="badge badge-amber">08:00 - 12:00</span>
+              </div>
+              <div id="planner-block-morning"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>☀️</span>
+                  <span>Afternoon</span>
+                </div>
+                <span class="badge badge-primary">13:00 - 17:00</span>
+              </div>
+              <div id="planner-block-afternoon"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>🌙</span>
+                  <span>Evening</span>
+                </div>
+                <span class="badge badge-emerald">18:00 - 22:00</span>
+              </div>
+              <div id="planner-block-evening"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3B. UNIFIED TASK LIST (KANBAN REMOVED) -->
+        <div class="prod-subview" id="prod-view-tasks">
+          <!-- Task Management Filter Bar -->
+          <div class="card" style="margin-bottom: 1.25rem; padding: 0.85rem 1.15rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              
+              <!-- Left: Search and Category Filter -->
+              <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap; flex: 1; min-width: 280px;">
+                <div style="position: relative; flex: 1; min-width: 180px;">
+                  <input type="text" class="form-input" id="task-search-input" placeholder="Search tasks by title..." style="padding-left: 2rem; font-size: 0.82rem;">
+                  <i data-lucide="search" style="position: absolute; left: 0.65rem; top: 50%; transform: translateY(-50%); width: 13px; height: 13px; color: var(--text-muted); pointer-events: none;"></i>
+                </div>
+
+                <select class="form-input" id="task-category-filter" style="width: auto; padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+                  <option value="all">All Categories</option>
+                  <option value="Study">Study</option>
+                  <option value="Project">Project</option>
+                  <option value="Exam Prep">Exam Prep</option>
+                  <option value="General">General</option>
+                </select>
+
+                <select class="form-input" id="task-priority-filter" style="width: auto; padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+                  <option value="all">All Priorities</option>
+                  <option value="high">High Priority</option>
+                  <option value="medium">Medium Priority</option>
+                  <option value="low">Low Priority</option>
+                </select>
+              </div>
+
+              <!-- Right: Status Filter Tabs -->
+              <div class="segmented-control" id="task-status-filter-group">
+                <button class="segment-btn active" data-status="all">All</button>
+                <button class="segment-btn" data-status="pending">Pending</button>
+                <button class="segment-btn" data-status="in-progress">In Progress</button>
+                <button class="segment-btn" data-status="completed">Completed</button>
+              </div>
+            </div>
+
+            <!-- Task Completion Progress Bar -->
+            <div style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);">Task Progress:</span>
+                <span class="badge badge-primary" id="task-progress-badge">0 / 0 completed (0%)</span>
+              </div>
+              <div style="flex: 1; max-width: 320px; height: 6px; background: var(--bg-surface-active); border-radius: var(--radius-full); overflow: hidden;">
+                <div id="task-progress-bar-fill" style="height: 100%; width: 0%; background: var(--accent-emerald); border-radius: var(--radius-full); transition: width 0.3s ease;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tasks List Container -->
+          <div class="card" style="padding: 1rem;">
+            <div id="tasks-list-view" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+          </div>
+        </div>
+
+        <!-- 3C. STUDY TRACKER & POMODORO -->
+        <div class="prod-subview" id="prod-view-tracker">
+          
+          <div class="tracker-top-row">
+            
+            <!-- Pomodoro Focus Card -->
+            <div class="card" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+              <div class="segmented-control" style="margin-bottom: 0.75rem;">
+                <button class="segment-btn pomo-mode-btn active" data-mode="focus">Focus</button>
+                <button class="segment-btn pomo-mode-btn" data-mode="shortBreak">Break</button>
+                <button class="segment-btn pomo-mode-btn" data-mode="longBreak">Long</button>
+              </div>
+
+              <div class="pomodoro-ring-wrap">
+                <svg viewBox="0 0 200 200">
+                  <circle class="pomodoro-ring-bg" cx="100" cy="100" r="88" />
+                  <circle class="pomodoro-ring-progress" id="pomo-svg-circle" cx="100" cy="100" r="88" stroke-dasharray="552.92" stroke-dashoffset="0" />
+                </svg>
+                <div class="pomodoro-inner-time">
+                  <div class="pomo-time-digits" id="pomo-timer-text">25:00</div>
+                  <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Deep Study</span>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <button class="btn btn-primary" id="btn-pomo-start" style="padding: 0.5rem 1.4rem;">Start Focus</button>
+                <button class="btn btn-secondary" id="btn-pomo-reset">Reset</button>
+              </div>
+
+              <span style="font-size: 0.72rem; color: var(--text-muted);">
+                Sessions automatically log into your consistency tracker.
+              </span>
+            </div>
+
+            <!-- 365-Day Consistency Heatmap -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">
+                    <i data-lucide="calendar" style="width: 15px; height: 15px; color: var(--accent-primary);"></i>
+                    <span>Consistency Heatmap</span>
+                  </div>
+                  <span class="card-subtitle">Daily study sessions & active streak over time</span>
+                </div>
+                <button class="btn btn-secondary" id="btn-open-log-session" style="font-size: 0.74rem;">
+                  + Log Session
+                </button>
+              </div>
+
+              <div style="overflow-x: auto; padding-bottom: 0.5rem; margin-top: 0.5rem;">
+                <div class="heatmap-calendar-grid" id="study-heatmap-calendar"></div>
+              </div>
+
+              <!-- Stats summary strip -->
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; border-top: 1px solid var(--border-subtle); margin-top: 1.25rem; padding-top: 0.75rem;">
+                <div>
+                  <div style="font-size: 0.7rem; color: var(--text-muted);">TODAY</div>
+                  <div style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary);" id="analytics-today-hours">2.5h</div>
+                </div>
+                <div>
+                  <div style="font-size: 0.7rem; color: var(--text-muted);">TOTAL STUDIED</div>
+                  <div style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary);" id="analytics-total-hours">58.5h</div>
+                </div>
+                <div>
+                  <div style="font-size: 0.7rem; color: var(--text-muted);">STREAK</div>
+                  <div style="font-size: 1.15rem; font-weight: 700; color: var(--accent-amber);" id="analytics-streak-days">14 Days</div>
+                </div>
+                <div>
+                  <div style="font-size: 0.7rem; color: var(--text-muted);">TOTAL SESSIONS</div>
+                  <div style="font-size: 1.15rem; font-weight: 700; color: var(--accent-sky);" id="analytics-total-sessions">10</div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Charts Row: Subject Distribution & Weekly Hours -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Subject Breakdown</div>
+              </div>
+              <div id="subject-chart-container"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Past 7 Days Study Curve</div>
+              </div>
+              <div id="weekly-chart-container"></div>
+            </div>
+          </div>
+
+          <!-- Session Log History -->
+          <div class="card" style="margin-top: 1.25rem;">
+            <div class="card-header">
+              <div class="card-title">Recent Session Logs</div>
+            </div>
+            <div id="recent-sessions-list"></div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===============================================================
+           VIEW 4: PERSONAL WORKSPACE (COURSES, CERTS, SKILLS, GOALS)
+           =============================================================== -->
+      <section class="view-panel" id="view-workspace">
+        
+        <div class="section-subbar">
+          <div class="segmented-control" id="workspace-sub-pills">
+            <button class="segment-btn active" data-sub="courses">
+              <i data-lucide="graduation-cap" style="width: 14px; height: 14px;"></i>
+              <span>Courses</span>
+            </button>
+            <button class="segment-btn" data-sub="certs">
+              <i data-lucide="award" style="width: 14px; height: 14px;"></i>
+              <span>Certifications</span>
+            </button>
+            <button class="segment-btn" data-sub="skills">
+              <i data-lucide="zap" style="width: 14px; height: 14px;"></i>
+              <span>Skills Matrix</span>
+            </button>
+            <button class="segment-btn" data-sub="goals">
+              <i data-lucide="target" style="width: 14px; height: 14px;"></i>
+              <span>Goals & Milestones</span>
+            </button>
+          </div>
+
+          <div style="font-size: 0.8rem; color: var(--text-muted);">
+            Manage your intellectual assets, certifications, and target goals.
+          </div>
+        </div>
+
+        <!-- 4A. COURSES -->
+        <div class="workspace-subview active" id="workspace-view-courses">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <select class="form-input" id="course-status-filter" style="width: auto; padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+              <option value="all">All Statuses</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+              <option value="Planned">Planned</option>
+            </select>
+            <button class="btn btn-primary" id="btn-add-course-modal">+ Add Course</button>
+          </div>
+          <div class="cards-catalog-grid" id="courses-cards-grid"></div>
+        </div>
+
+        <!-- 4B. CERTIFICATIONS -->
+        <div class="workspace-subview" id="workspace-view-certs">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <div>
+              <h3 style="font-size: 1rem; font-weight: 700;">Professional Certifications</h3>
+              <p style="font-size: 0.78rem; color: var(--text-muted);">Track earned credentials and expiry schedules.</p>
+            </div>
+            <button class="btn btn-primary" id="btn-add-cert-modal">+ Log Certification</button>
+          </div>
+          <div class="cards-catalog-grid" id="certs-cards-grid"></div>
+        </div>
+
+        <!-- 4C. SKILLS MATRIX -->
+        <div class="workspace-subview" id="workspace-view-skills">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <div>
+              <h3 style="font-size: 1rem; font-weight: 700;">Skills Competency Matrix</h3>
+              <p style="font-size: 0.78rem; color: var(--text-muted);">Rate proficiency from Novice to Master (1 to 5) and log practice.</p>
+            </div>
+            <button class="btn btn-primary" id="btn-add-skill-modal">+ Add Skill</button>
+          </div>
+          <div class="cards-catalog-grid" id="skills-cards-grid"></div>
+        </div>
+
+        <!-- 4D. GOALS & MILESTONES -->
+        <div class="workspace-subview" id="workspace-view-goals">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <div>
+              <h3 style="font-size: 1rem; font-weight: 700;">Long-Term Learning Goals</h3>
+              <p style="font-size: 0.78rem; color: var(--text-muted);">Milestone checklists with automatic progress recalculation.</p>
+            </div>
+            <button class="btn btn-primary" id="btn-add-goal-modal">+ Set Goal</button>
+          </div>
+          <div class="cards-catalog-grid" id="goals-cards-grid"></div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ===================================================================
+       MODAL DIALOGS
+       =================================================================== -->
+
+  <!-- 1. Command Palette (Ctrl+K) -->
+  <div class="modal-backdrop" id="modal-command-palette">
+    <div class="modal-sheet palette-window">
+      <input type="text" class="palette-input-field" id="palette-input" placeholder="Type a command or search notes, courses, tasks...">
+      <div style="max-height: 360px; overflow-y: auto; padding: 0.6rem;" id="palette-results"></div>
+    </div>
+  </div>
+
+  <!-- 2. Quick Capture Modal (Ctrl+N) -->
+  <div class="modal-backdrop" id="modal-quick-capture">
+    <div class="modal-sheet">
+      <div class="modal-header-bar">
+        <h3>Quick Capture</h3>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+      <div class="modal-content-body">
+        <div>
+          <label class="form-label">Type</label>
+          <select class="form-input" id="quick-capture-type">
+            <option value="task">Today's Task</option>
+            <option value="note">Study Note</option>
+            <option value="video">YouTube Video Link</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Content</label>
+          <textarea class="form-input" id="quick-capture-text" rows="3" placeholder="Enter task title or quick note..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn btn-secondary btn-close-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-quick-capture">Save Capture</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Add Task Modal -->
+  <div class="modal-backdrop" id="modal-add-task">
+    <div class="modal-sheet">
+      <div class="modal-header-bar">
+        <h3>Add Task</h3>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+      <div class="modal-content-body">
+        <div>
+          <label class="form-label">Task Title</label>
+          <input type="text" class="form-input" id="input-task-title" placeholder="e.g. Derive Attention Equation">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="form-label">Category</label>
+            <select class="form-input" id="select-task-category">
+              <option value="Study">Study</option>
+              <option value="Project">Project</option>
+              <option value="Exam Prep">Exam Prep</option>
+              <option value="General">General</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Priority</label>
+            <select class="form-input" id="select-task-priority">
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="form-label">Subject</label>
+            <select class="form-input" id="select-task-subject">
+              <option value="subj-1">Machine Learning & AI</option>
+              <option value="subj-2">Algorithms & Data Structures</option>
+              <option value="subj-3">Distributed Systems & Cloud</option>
+              <option value="subj-4">Mathematics for Computing</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Time Block</label>
+            <select class="form-input" id="select-task-timeblock">
+              <option value="Morning">Morning</option>
+              <option value="Afternoon">Afternoon</option>
+              <option value="Evening">Evening</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="flex: 1; margin-right: 1rem;">
+            <label class="form-label">Estimated Mins</label>
+            <input type="number" class="form-input" id="input-task-mins" value="45">
+          </div>
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; cursor: pointer; margin-top: 1rem;">
+            <input type="checkbox" id="checkbox-task-today" checked>
+            <span>Today's Plan</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn btn-secondary btn-close-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-new-task">Save Task</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Add Video Modal -->
+  <div class="modal-backdrop" id="modal-add-yt-video">
+    <div class="modal-sheet">
+      <div class="modal-header-bar">
+        <h3>Add YouTube Lecture</h3>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+      <div class="modal-content-body">
+        <div>
+          <label class="form-label">Video URL or ID</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" class="form-input" id="input-yt-url" placeholder="https://www.youtube.com/watch?v=... or youtu.be/..." style="flex: 1;">
+            <button class="btn btn-secondary" id="btn-modal-yt-autofill" type="button" style="font-size: 0.78rem;">
+              <span>Auto-Fetch</span>
+            </button>
+          </div>
+          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem; display: block;" id="modal-yt-fetch-status">Paste link and click Auto-Fetch to automatically resolve title and channel.</span>
+        </div>
+        <div>
+          <label class="form-label">Title</label>
+          <input type="text" class="form-input" id="input-yt-title" placeholder="Lecture Title">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="form-label">Channel / Source</label>
+            <input type="text" class="form-input" id="input-yt-channel" placeholder="Instructor / Channel">
+          </div>
+          <div>
+            <label class="form-label">Subject</label>
+            <select class="form-input" id="select-yt-subject">
+              <option value="subj-1">Machine Learning & AI</option>
+              <option value="subj-2">Algorithms & Data Structures</option>
+              <option value="subj-3">Distributed Systems & Cloud</option>
+              <option value="subj-4">Mathematics for Computing</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn btn-secondary btn-close-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-new-yt">Add Video</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Add Course Modal -->
+  <div class="modal-backdrop" id="modal-add-course">
+    <div class="modal-sheet">
+      <div class="modal-header-bar">
+        <h3>Track New Course</h3>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+      <div class="modal-content-body">
+        <div>
+          <label class="form-label">Course Title</label>
+          <input type="text" class="form-input" id="input-course-title" placeholder="e.g. Stanford CS229">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="form-label">Platform</label>
+            <input type="text" class="form-input" id="input-course-platform" placeholder="Stanford Online / edX">
+          </div>
+          <div>
+            <label class="form-label">Instructor</label>
+            <input type="text" class="form-input" id="input-course-instructor" placeholder="Andrew Ng">
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="form-label">Total Modules</label>
+            <input type="number" class="form-input" id="input-course-modules" value="10">
+          </div>
+          <div>
+            <label class="form-label">Course URL</label>
+            <input type="text" class="form-input" id="input-course-url" placeholder="https://...">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn btn-secondary btn-close-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-new-course">Track Course</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Add Certification Modal -->
+  <div class="modal-backdrop" id="modal-add-cert">
+    <div class="modal-sheet">
+      <div class="modal-header-bar">
+        <h3>Log Certification</h3>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+      <div class="modal-content-body">
+        <div>
+          <label class="form-label">Certification Name</label>
+          <input type="text" class="form-input" id="input-cert-name" placeholder="e.g. AWS Solutions Architect">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="form-label">Issuer</label>
+            <input type="text" class="form-input" id="input-cert-issuer" placeholder="Amazon Web Services">
+          </div>
+          <div>
+            <label class="form-label">Status</label>
+            <select class="form-input" id="select-cert-status">
+              <option value="Active">Active</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Planned">Planned</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="form-label">Credential ID</label>
+          <input type="text" class="form-input" id="input-cert-id" placeholder="AWS-SAA-12345">
+        </div>
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn btn-secondary btn-close-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-new-cert">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Add Goal Modal -->
+  <div class="modal-backdrop" id="modal-add-goal">
+    <div class="modal-sheet">
+      <div class="modal-header-bar">
+        <h3>Set Learning Goal</h3>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+      <div class="modal-content-body">
+        <div>
+          <label class="form-label">Goal Title</label>
+          <input type="text" class="form-input" id="input-goal-title" placeholder="e.g. Build an Autonomous Agent Framework">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <label class="form-label">Category</label>
+            <input type="text" class="form-input" id="input-goal-category" value="Technical Mastery">
+          </div>
+          <div>
+            <label class="form-label">Target Date</label>
+            <input type="date" class="form-input" id="input-goal-date" value="2026-12-31">
+          </div>
+        </div>
+        <div>
+          <label class="form-label">Description</label>
+          <textarea class="form-input" id="input-goal-desc" rows="2" placeholder="Key outcomes and motivations..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn btn-secondary btn-close-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-new-goal">Save Goal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Log Session Modal -->
+  <div class="modal-backdrop" id="modal-log-session">
+    <div class="modal-sheet">
+      <div class="modal-header-bar">
+        <h3>Log Study Session</h3>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+      <div class="modal-content-body">
+        <div>
+          <label class="form-label">Subject</label>
+          <select class="form-input" id="select-session-subject">
+            <option value="subj-1">Machine Learning & AI</option>
+            <option value="subj-2">Algorithms & Data Structures</option>
+            <option value="subj-3">Distributed Systems & Cloud</option>
+            <option value="subj-4">Mathematics for Computing</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Duration (Minutes)</label>
+          <input type="number" class="form-input" id="input-session-mins" value="60" min="5">
+        </div>
+        <div>
+          <label class="form-label">Topic Studied</label>
+          <input type="text" class="form-input" id="input-session-topic" placeholder="e.g. Transformer Attention Math">
+        </div>
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn btn-secondary btn-close-modal">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-log-session">Log Session</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. YouTube Data API Key Modal -->
+  <div class="modal-backdrop" id="modal-yt-api-settings">
+    <div class="modal-sheet">
+      <div class="modal-header-bar">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <i data-lucide="key" style="width: 16px; height: 16px; color: var(--accent-amber);"></i>
+          <h3>YouTube Data API v3 Configuration</h3>
+        </div>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+      <div class="modal-content-body">
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+          Connect your Google Cloud YouTube Data API v3 key to search for video lectures, syllabus units, and courses directly through Google's official API.
+        </p>
+
+        <div>
+          <label class="form-label">YouTube API Key</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="password" class="form-input" id="input-yt-api-key" placeholder="AIzaSy..." style="flex: 1; font-family: var(--font-mono); font-size: 0.84rem;">
+            <button class="btn btn-secondary" id="btn-toggle-show-yt-key" type="button" style="font-size: 0.78rem;">Show</button>
+          </div>
+          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.35rem; display: block;" id="yt-key-status-msg">
+            Saved securely in browser local storage.
+          </span>
+        </div>
+
+        <div class="card" style="padding: 0.85rem; background: var(--bg-input); font-size: 0.78rem; line-height: 1.6;">
+          <strong style="color: var(--text-primary); display: block; margin-bottom: 0.35rem;">How to get your free key:</strong>
+          <ol style="margin-left: 1.2rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.2rem;">
+            <li>Go to <a href="https://console.cloud.google.com/" target="_blank" style="color: var(--accent-primary); text-decoration: underline;">Google Cloud Console</a> & create/select a project.</li>
+            <li>In <strong>APIs & Services → Library</strong>, search and enable <strong>YouTube Data API v3</strong>.</li>
+            <li>In <strong>Credentials → Create Credentials → API Key</strong>, copy and paste your key here.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="modal-footer-bar">
+        <button class="btn btn-ghost" id="btn-clear-yt-api-key" style="color: #ef4444; margin-right: auto;">Remove Key</button>
+        <button class="btn btn-secondary" id="btn-test-yt-api-key">Test Key</button>
+        <button class="btn btn-primary" id="btn-save-yt-api-key">Save & Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Supabase Authentication Modal (Sign In / Sign Up) -->
+  <div class="modal-backdrop" id="modal-auth">
+    <div class="modal-sheet" style="max-width: 440px;">
+      <!-- Tab Header -->
+      <div class="auth-tabs-group">
+        <button class="auth-tab-btn active" id="tab-auth-signin" type="button">
+          <i data-lucide="log-in" style="width: 15px; height: 15px;"></i>
+          <span>Sign In</span>
+        </button>
+        <button class="auth-tab-btn" id="tab-auth-signup" type="button">
+          <i data-lucide="user-plus" style="width: 15px; height: 15px;"></i>
+          <span>Create Account</span>
+        </button>
+        <button class="btn-icon btn-close-modal" style="width: 32px; height: 32px; margin: auto 0.75rem auto auto;" title="Close">✕</button>
+      </div>
+
+      <div class="modal-content-body" style="padding: 1.5rem;">
+        <!-- Alert feedback message -->
+        <div id="auth-alert-msg" style="display: none;"></div>
+
+        <!-- Sign In Form -->
+        <form id="form-auth-signin" onsubmit="return false;" style="display: block;">
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div>
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" id="input-signin-email" placeholder="learner@example.com" autocomplete="email" required>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                <label class="form-label" style="margin-bottom: 0;">Password</label>
+              </div>
+              <div style="display: flex; gap: 0.4rem;">
+                <input type="password" class="form-input" id="input-signin-password" placeholder="••••••••" autocomplete="current-password" style="flex: 1;" required>
+                <button type="button" class="btn btn-secondary btn-toggle-password-vis" data-target="input-signin-password" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">Show</button>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="btn-submit-signin" style="width: 100%; justify-content: center; padding: 0.6rem; font-weight: 600; margin-top: 0.5rem; box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);">
+              Sign In to Supabase
+            </button>
+          </div>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form id="form-auth-signup" onsubmit="return false;" style="display: none;">
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div>
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-input" id="input-signup-name" placeholder="Abhijeet Nigam" autocomplete="name">
+            </div>
+            <div>
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" id="input-signup-email" placeholder="learner@example.com" autocomplete="email" required>
+            </div>
+            <div>
+              <label class="form-label">Password (min 6 characters)</label>
+              <div style="display: flex; gap: 0.4rem;">
+                <input type="password" class="form-input" id="input-signup-password" placeholder="••••••••" autocomplete="new-password" style="flex: 1;" required>
+                <button type="button" class="btn btn-secondary btn-toggle-password-vis" data-target="input-signup-password" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;">Show</button>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="btn-submit-signup" style="width: 100%; justify-content: center; padding: 0.6rem; font-weight: 600; margin-top: 0.5rem; box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);">
+              Create Supabase Account
+            </button>
+          </div>
+        </form>
+
+        <!-- Cloud Setup Quick Link -->
+        <div style="margin-top: 1.25rem; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; font-size: 0.74rem; color: var(--text-muted);">
+          <span>Backend: Supabase Cloud</span>
+          <button type="button" class="btn-open-supabase-settings" style="background: none; border: none; color: var(--accent-primary); cursor: pointer; text-decoration: underline; font-size: 0.74rem;">
+            Configure Project Keys
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Supabase Cloud Configuration Modal -->
+  <div class="modal-backdrop" id="modal-supabase-settings">
+    <div class="modal-sheet" style="max-width: 520px;">
+      <div class="modal-header-bar">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.1rem;">⚡</span>
+          <h3>Supabase Backend Configuration</h3>
+        </div>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+
+      <div class="modal-content-body">
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+          Connect your free Supabase PostgreSQL & Auth project. Synapse OS will authenticate users and sync notes, tasks, courses, and PDFs to the cloud.
+        </p>
+
+        <div>
+          <label class="form-label">Supabase Project URL</label>
+          <input type="text" class="form-input" id="input-supabase-url" placeholder="https://your-project.supabase.co" style="font-family: var(--font-mono); font-size: 0.82rem;">
+          <span style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">
+            Found in your Supabase Dashboard → Project Settings → API → Project URL
+          </span>
+        </div>
+
+        <div>
+          <label class="form-label">Supabase Anon / Public Key</label>
+          <textarea class="form-input" id="input-supabase-key" rows="3" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="font-family: var(--font-mono); font-size: 0.76rem; resize: none;"></textarea>
+          <span style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">
+            Project Settings → API → Project API keys → <code>anon</code> <code>public</code>
+          </span>
+        </div>
+
+        <div id="supabase-config-status-msg" style="font-size: 0.78rem; color: var(--text-secondary); padding: 0.45rem 0.6rem; background: var(--bg-input); border-radius: var(--radius-xs); border: 1px solid var(--border-subtle);">
+          Enter your Supabase URL and key above to authenticate.
+        </div>
+
+        <!-- Cloud Table Setup Instruction Card -->
+        <div class="card" style="padding: 0.75rem; background: var(--bg-input); font-size: 0.74rem; line-height: 1.5;">
+          <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.3rem;">📋 Quick Supabase SQL Setup (Optional for Cloud Workspace Sync):</div>
+          <div style="color: var(--text-muted); margin-bottom: 0.4rem;">Run this in Supabase SQL Editor if you want multi-device workspace backup:</div>
+          <pre style="background: var(--bg-app); padding: 0.5rem; border-radius: 4px; font-size: 0.68rem; font-family: var(--font-mono); overflow-x: auto; color: var(--accent-emerald);">create table if not exists public.user_workspaces (
+  user_id uuid references auth.users not null primary key,
+  data jsonb not null default '{}'::jsonb,
+  updated_at timestamptz default now()
+);</pre>
+        </div>
+      </div>
+
+      <div class="modal-footer-bar">
+        <button class="btn btn-secondary" id="btn-test-supabase-config">Test Connection</button>
+        <button class="btn btn-primary" id="btn-save-supabase-config">Save & Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. Authenticated User Menu Modal -->
+  <div class="modal-backdrop" id="modal-user-menu">
+    <div class="modal-sheet" style="max-width: 420px;">
+      <div class="modal-header-bar">
+        <h3>Account & Cloud Sync</h3>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+
+      <div class="modal-content-body">
+        <div class="user-menu-profile-card">
+          <div class="user-menu-avatar" id="user-menu-avatar-badge">A</div>
+          <div class="user-menu-info">
+            <div class="user-menu-name" id="user-menu-name">Learner</div>
+            <div class="user-menu-email" id="user-menu-email">user@example.com</div>
+            <div style="margin-top: 0.35rem;">
+              <span class="badge badge-emerald" style="font-size: 0.65rem;">● Supabase Cloud Active</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cloud-sync-status-row">
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <i data-lucide="cloud" style="width: 14px; height: 14px; color: var(--accent-sky);"></i>
+            <span>Cloud Workspace Backup</span>
+          </div>
+          <button class="btn btn-secondary" id="btn-manual-cloud-sync" style="padding: 0.2rem 0.55rem; font-size: 0.72rem;">
+            Sync Now
+          </button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.5rem;">
+          <button class="btn btn-secondary btn-open-supabase-settings" style="justify-content: flex-start; font-size: 0.78rem;">
+            <i data-lucide="settings" style="width: 14px; height: 14px;"></i>
+            <span>Supabase Project Settings</span>
+          </button>
+          <button class="btn btn-ghost" id="btn-auth-signout" style="justify-content: flex-start; color: #ef4444; font-size: 0.78rem;">
+            <i data-lucide="log-out" style="width: 14px; height: 14px;"></i>
+            <span>Sign Out from Supabase</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. Celebration Trophy Modal (Exact match to design screenshot) -->
+  <div class="modal-backdrop" id="modal-celebration-achievement">
+    <div class="celebration-sheet">
+      <button class="celebration-close-btn btn-close-modal" title="Close">✕</button>
+      <!-- Golden Trophy Icon / Illustration -->
+      <div class="celebration-trophy-img">
+        <svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+          <defs>
+            <linearGradient id="trophyGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFE066"/>
+              <stop offset="50%" stop-color="#FFC837"/>
+              <stop offset="100%" stop-color="#E69500"/>
+            </linearGradient>
+            <linearGradient id="trophyCupBase" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#3A3870"/>
+              <stop offset="100%" stop-color="#22204A"/>
+            </linearGradient>
+          </defs>
+          <!-- Confetti ribbons -->
+          <circle cx="20" cy="25" r="3" fill="#60A5FA"/>
+          <circle cx="80" cy="22" r="3" fill="#F472B6"/>
+          <circle cx="15" cy="50" r="2.5" fill="#34D399"/>
+          <circle cx="85" cy="55" r="2.5" fill="#FBBF24"/>
+          <path d="M 18,32 Q 25,30 22,40" stroke="#F472B6" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M 78,35 Q 85,38 82,48" stroke="#60A5FA" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Handles -->
+          <path d="M 30,30 C 15,30 15,50 32,55" fill="none" stroke="url(#trophyGold)" stroke-width="5" stroke-linecap="round"/>
+          <path d="M 70,30 C 85,30 85,50 68,55" fill="none" stroke="url(#trophyGold)" stroke-width="5" stroke-linecap="round"/>
+          <!-- Cup Body -->
+          <path d="M 30,22 L 70,22 C 70,22 72,58 50,65 C 28,58 30,22 30,22 Z" fill="url(#trophyGold)"/>
+          <!-- Star on cup -->
+          <polygon points="50,33 53,40 60,40 54,44 57,51 50,47 43,51 46,44 40,40 47,40" fill="#FFF3B0"/>
+          <!-- Stem & Pedestal -->
+          <rect x="46" y="65" width="8" height="10" fill="url(#trophyGold)"/>
+          <rect x="36" y="75" width="28" height="5" rx="2" fill="url(#trophyGold)"/>
+          <rect x="32" y="80" width="36" height="10" rx="3" fill="url(#trophyCupBase)" stroke="url(#trophyGold)" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <h2 class="celebration-title">Great Work, Ananya! 🎉</h2>
+      <p class="celebration-sub">You have completed 80% of your goals for this term.</p>
+
+      <button class="celebration-btn" onclick="app.closeAllModals(); app.switchMainTab('workspace'); app.switchWorkspaceSub('goals');">
+        View Achievements
+      </button>
+    </div>
+  </div>
+
+  <!-- 14. Attendance Details Modal (Matching mobile screen mockup) -->
+  <div class="modal-backdrop" id="modal-attendance-details">
+    <div class="modal-sheet" style="max-width: 440px;">
+      <div class="modal-header-bar">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.1rem;">📅</span>
+          <h3>Attendance Overview</h3>
+        </div>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+
+      <div class="modal-content-body">
+        <!-- Donut & Stats -->
+        <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 1rem 0;">
+          <div class="learnova-donut-container" style="width: 130px; height: 130px;">
+            <svg class="donut-svg" viewBox="0 0 140 140">
+              <circle class="donut-circle-bg" cx="70" cy="70" r="54"></circle>
+              <circle class="donut-circle-progress" cx="70" cy="70" r="54" style="stroke: #10B981; stroke-dashoffset: 40;"></circle>
+            </svg>
+            <div class="donut-center-content">
+              <span class="donut-center-pct" style="color: #10B981; font-size: 1.6rem;">92%</span>
+              <span class="donut-center-lbl">This Month</span>
+            </div>
+          </div>
+
+          <!-- Attendance Counts Row -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; gap: 0.75rem; margin-top: 1.25rem; text-align: center;">
+            <div style="background: var(--bg-input); padding: 0.65rem; border-radius: 12px; border: 1px solid var(--border-subtle);">
+              <div style="font-size: 1.2rem; font-weight: 800; color: #10B981;">23</div>
+              <div style="font-size: 0.7rem; color: var(--text-muted);">Present</div>
+            </div>
+            <div style="background: var(--bg-input); padding: 0.65rem; border-radius: 12px; border: 1px solid var(--border-subtle);">
+              <div style="font-size: 1.2rem; font-weight: 800; color: #EF4444;">2</div>
+              <div style="font-size: 0.7rem; color: var(--text-muted);">Absent</div>
+            </div>
+            <div style="background: var(--bg-input); padding: 0.65rem; border-radius: 12px; border: 1px solid var(--border-subtle);">
+              <div style="font-size: 1.2rem; font-weight: 800; color: var(--text-primary);">25</div>
+              <div style="font-size: 0.7rem; color: var(--text-muted);">Total Classes</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Classes Log -->
+        <div>
+          <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem;">Recent Classes</div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.8rem; background: var(--bg-input); border-radius: 10px;">
+              <div>
+                <div style="font-size: 0.82rem; font-weight: 600;">Data Structures</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">14 Oct 2024</div>
+              </div>
+              <span style="font-size: 0.72rem; font-weight: 700; color: #10B981; background: #ECFDF5; padding: 0.2rem 0.5rem; border-radius: 6px;">Present</span>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.8rem; background: var(--bg-input); border-radius: 10px;">
+              <div>
+                <div style="font-size: 0.82rem; font-weight: 600;">Database Systems</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">14 Oct 2024</div>
+              </div>
+              <span style="font-size: 0.72rem; font-weight: 700; color: #10B981; background: #ECFDF5; padding: 0.2rem 0.5rem; border-radius: 6px;">Present</span>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.8rem; background: var(--bg-input); border-radius: 10px;">
+              <div>
+                <div style="font-size: 0.82rem; font-weight: 600;">Operating Systems</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">13 Oct 2024</div>
+              </div>
+              <span style="font-size: 0.72rem; font-weight: 700; color: #EF4444; background: #FEF2F2; padding: 0.2rem 0.5rem; border-radius: 6px;">Absent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15. Grades Overview Modal (Matching mobile screen mockup) -->
+  <div class="modal-backdrop" id="modal-grades-overview">
+    <div class="modal-sheet" style="max-width: 440px;">
+      <div class="modal-header-bar">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.1rem;">🎓</span>
+          <h3>Academic Performance & Grades</h3>
+        </div>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+
+      <div class="modal-content-body">
+        <!-- GPA Card -->
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; background: var(--learnova-primary-soft); border-radius: 16px; border: 1px solid var(--accent-primary-border);">
+          <div>
+            <div style="font-size: 0.74rem; font-weight: 600; color: var(--learnova-primary);">CUMULATIVE GPA</div>
+            <div style="font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: var(--text-primary); line-height: 1.1;">
+              8.6 <span style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">/ 10</span>
+            </div>
+            <div style="font-size: 0.72rem; color: #10B981; font-weight: 600; margin-top: 0.2rem;">★ Excellent Standing</div>
+          </div>
+          <div style="font-size: 2.2rem;">⭐</div>
+        </div>
+
+        <!-- Subjects Grade List -->
+        <div>
+          <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem;">Subjects Breakdown</div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 0.85rem; background: var(--bg-input); border-radius: 12px;">
+              <span style="font-size: 0.84rem; font-weight: 600;">Data Structures</span>
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-weight: 800; color: var(--learnova-primary);">A</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); background: var(--bg-surface); padding: 0.15rem 0.45rem; border-radius: 6px;">9.2</span>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 0.85rem; background: var(--bg-input); border-radius: 12px;">
+              <span style="font-size: 0.84rem; font-weight: 600;">Database Systems</span>
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-weight: 800; color: var(--learnova-primary);">B+</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); background: var(--bg-surface); padding: 0.15rem 0.45rem; border-radius: 6px;">8.1</span>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 0.85rem; background: var(--bg-input); border-radius: 12px;">
+              <span style="font-size: 0.84rem; font-weight: 600;">Operating Systems</span>
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-weight: 800; color: var(--learnova-primary);">A-</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); background: var(--bg-surface); padding: 0.15rem 0.45rem; border-radius: 6px;">8.8</span>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 0.85rem; background: var(--bg-input); border-radius: 12px;">
+              <span style="font-size: 0.84rem; font-weight: 600;">Computer Networks</span>
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-weight: 800; color: var(--learnova-primary);">B</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); background: var(--bg-surface); padding: 0.15rem 0.45rem; border-radius: 6px;">7.4</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 16. Learnova Messages Drawer Modal -->
+  <div class="modal-backdrop" id="modal-messages">
+    <div class="modal-sheet" style="max-width: 440px;">
+      <div class="modal-header-bar">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.1rem;">💬</span>
+          <h3>Messages & Announcements</h3>
+        </div>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+
+      <div class="modal-content-body">
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div style="padding: 0.75rem; background: var(--bg-input); border-radius: 12px; border-left: 3px solid var(--learnova-primary);">
+            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
+              <span style="font-weight: 700; color: var(--text-primary);">Prof. Mehta</span>
+              <span>10:30 AM</span>
+            </div>
+            <div style="font-size: 0.82rem; margin-top: 0.25rem;">Data Structures lab assignment 3 has been uploaded. Please submit before 18 Oct.</div>
+          </div>
+
+          <div style="padding: 0.75rem; background: var(--bg-input); border-radius: 12px; border-left: 3px solid #10B981;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
+              <span style="font-weight: 700; color: var(--text-primary);">Prof. Iyer</span>
+              <span>Yesterday</span>
+            </div>
+            <div style="font-size: 0.82rem; margin-top: 0.25rem;">Database normalization lecture notes and recordings are now ready.</div>
+          </div>
+
+          <div style="padding: 0.75rem; background: var(--bg-input); border-radius: 12px; border-left: 3px solid #F59E0B;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
+              <span style="font-weight: 700; color: var(--text-primary);">Department Office</span>
+              <span>2 days ago</span>
+            </div>
+            <div style="font-size: 0.82rem; margin-top: 0.25rem;">Mid-term examinations will commence from next week. Check your calendar for details.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17. Learnova Student Settings & Profile Modal (Matching mobile mockup) -->
+  <div class="modal-backdrop" id="modal-settings">
+    <div class="modal-sheet" style="max-width: 440px;">
+      <div class="modal-header-bar">
+        <h3>Student Profile</h3>
+        <button class="btn-icon btn-close-modal" style="width: 24px; height: 24px;">✕</button>
+      </div>
+
+      <div class="modal-content-body">
+        <!-- Profile Header Card -->
+        <div style="display: flex; flex-direction: column; align-items: center; padding: 1rem 0; text-align: center;">
+          <img src="assets/avatar.jpg" alt="Ananya Sharma" style="width: 76px; height: 76px; border-radius: 50%; object-fit: cover; border: 3px solid #FFFFFF; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 0.65rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">Ananya Sharma</h3>
+          <span style="font-size: 0.78rem; color: var(--text-muted);">ananya.sharma@email.com</span>
+        </div>
+
+        <!-- Menu List Matching Mobile Mockup -->
+        <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+          <div class="palette-item-row" onclick="alert('Profile details updated!')">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <i data-lucide="edit-3" style="width: 15px; height: 15px; color: var(--text-muted);"></i>
+              <span style="font-size: 0.84rem; font-weight: 500;">Edit Profile</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+          </div>
+
+          <div class="palette-item-row btn-open-supabase-settings">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <i data-lucide="settings" style="width: 15px; height: 15px; color: var(--text-muted);"></i>
+              <span style="font-size: 0.84rem; font-weight: 500;">Account & Cloud Sync</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+          </div>
+
+          <div class="palette-item-row" onclick="alert('Notification settings: All enabled.')">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <i data-lucide="bell" style="width: 15px; height: 15px; color: var(--text-muted);"></i>
+              <span style="font-size: 0.84rem; font-weight: 500;">Notification Preferences</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+          </div>
+
+          <div class="palette-item-row" onclick="alert('Privacy & security settings.')">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <i data-lucide="shield" style="width: 15px; height: 15px; color: var(--text-muted);"></i>
+              <span style="font-size: 0.84rem; font-weight: 500;">Privacy & Security</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+          </div>
+
+          <div class="palette-item-row" onclick="alert('Learnova LMS Help & Support: support@learnova.edu')">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <i data-lucide="help-circle" style="width: 15px; height: 15px; color: var(--text-muted);"></i>
+              <span style="font-size: 0.84rem; font-weight: 500;">Help & Support</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+          </div>
+
+          <div class="palette-item-row" onclick="authManager.signOut()" style="color: #EF4444; margin-top: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <i data-lucide="log-out" style="width: 15px; height: 15px; color: #EF4444;"></i>
+              <span style="font-size: 0.84rem; font-weight: 600;">Logout</span>
+            </div>
+            <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: #EF4444;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar (Matching Mobile Mockup in screenshot) -->
+  <nav class="mobile-bottom-bar" id="mobile-bottom-bar">
+    <button class="mobile-nav-item active" data-tab="dashboard">
+      <i data-lucide="layout-dashboard"></i>
+      <span>Home</span>
+    </button>
+    <button class="mobile-nav-item" data-tab="study" data-sub="youtube">
+      <i data-lucide="video"></i>
+      <span>Classes</span>
+    </button>
+    <button class="mobile-nav-item" data-tab="productivity" data-sub="planner">
+      <i data-lucide="calendar"></i>
+      <span>Planner</span>
+    </button>
+    <button class="mobile-nav-item" id="mobile-nav-profile-btn">
+      <i data-lucide="user"></i>
+      <span>Profile</span>
+    </button>
+  </nav>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+</div>
+
+<!-- Scripts -->
+<script src="js/data.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/markdown.js"></script>
+<script src="js/study-notes.js"></script>
+<script src="js/study-youtube.js"></script>
+<script src="js/study-pdf.js"></script>
+<script src="js/productivity.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/workspace.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+  // Refresh Lucide vector icons on initial load and navigation
+  window.addEventListener('DOMContentLoaded', () => {
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  });
+</script>
+
+</body>
+</html>

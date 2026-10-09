@@ -1,0 +1,22 @@
+{
+  "name": "synapse-os",
+  "version": "1.0.0",
+  "description": "Synapse OS — Professional Personal Learning & Productivity Workspace",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "server": "node server.js",
+    "check": "node --check server.js"
+  },
+  "keywords": [
+    "synapse",
+    "study-os",
+    "workspace",
+    "productivity",
+    "youtube-study",
+    "pdf-manager"
+  ],
+  "author": "Abhijeet Nigam",
+  "license": "MIT"
+}

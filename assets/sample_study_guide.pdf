@@ -1,0 +1,32 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1188 >>
+stream
+BT /F1 24 Tf 50 720 Td (SYNAPSE OS: MACHINE LEARNING ESSENTIALS) Tj /F1 12 Tf 0 -30 Td (Lecture Notes & Research Summary) Tj 0 -25 Td (1. NEURAL NETWORKS & BACKPROPAGATION) Tj 0 -18 Td (A neural network is a collection of connected units or nodes called artificial neurons.) Tj 0 -15 Td (Each connection transmits a signal, which is a real number computed by an activation function.) Tj 0 -25 Td (2. LOSS FUNCTIONS & GRADIENT DESCENT) Tj 0 -18 Td (Mean Squared Error (MSE): L = 1/N * sum((y_true - y_pred)^2)) Tj 0 -15 Td (Cross-Entropy Loss: L = -sum(y_true * log(y_pred))) Tj 0 -15 Td (Optimization: theta = theta - lr * grad(L)) Tj 0 -25 Td (3. REGULARIZATION TECHNIQUES) Tj 0 -18 Td (- L1 Regularization (Lasso): Promotes sparsity in weights) Tj 0 -15 Td (- L2 Regularization (Ridge / Weight Decay): Prevents extreme weights) Tj 0 -15 Td (- Dropout: Randomly zeros activations during forward pass with probability p) Tj 0 -25 Td (4. TRANSFORMER ARCHITECTURE) Tj 0 -18 Td (Self-Attention mechanism: Attention(Q, K, V) = softmax(Q * K^T / sqrt(d_k)) * V) Tj 0 -15 Td (Multi-Head Attention allows the model to jointly attend to information from different representation subspaces.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000010 00000 n 
+0000000060 00000 n 
+0000000117 00000 n 
+0000000244 00000 n 
+0000000300 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+370
+%%EOF
